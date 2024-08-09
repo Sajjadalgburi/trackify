@@ -1,6 +1,8 @@
 import { Schema, model, models, Document } from "mongoose";
 import { hash, compare } from "bcrypt";
-import Application from "@/models/application"; // Ensure the import path is correct
+
+// Import the Application model
+import Application from "@/models/application";
 
 // Define interfaces for user and methods
 interface UserInterface extends Document {
@@ -54,7 +56,7 @@ userSchema.pre("save", async function (next) {
       next();
     } catch (error) {
       console.log(error as Error);
-      next(error as undefined); // Ensure errors are passed to the next middleware
+      next(error as Error); // Ensure errors are passed to the next middleware
     }
   } else {
     next();
