@@ -1,25 +1,26 @@
-// creating a connect to database which is hosted on mongodb atlas database
+// lib/database.ts
 import mongoose from "mongoose";
 
 let isConnected = false;
 
-// make a connection to the database using local host, if the database is hosted on mongodb atlas then use the uri of the database
-const uri = "mongodb://localhost:27017/Trackify" || process.env.MONGODB_URI;
+const localUri = "mongodb://localhost:27017/Trackify";
+const uri = process.env.MONGODB_URI || localUri;
 
-// function to connect to the database
 export const connectToMongoDb = async () => {
   if (isConnected) {
-    return console.log("Database is already connected");
+    console.log("Database is already connected");
+    return mongoose.connection;
   }
 
   try {
     await mongoose.connect(uri, {
       dbName: "Trackify",
     });
-
     isConnected = true;
     console.log("Database connected successfully");
+    return mongoose.connection;
   } catch (error) {
-    console.log("Error in connecting to database", error);
+    console.error("Error connecting to database", error);
+    throw new Error("Error connecting to database");
   }
 };
