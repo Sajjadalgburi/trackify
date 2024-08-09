@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Bricolage_Grotesque } from "next/font/google";
 import "@/styles/globals.css";
+import SessionWrappper from "@/components/SessionWrappper";
 
 const bricolage = Bricolage_Grotesque({
   subsets: ["latin"],
@@ -17,8 +18,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body className={bricolage.className}>{children}</body>
-    </html>
+    <SessionWrappper>
+      <html lang="en">
+        <body className={bricolage.className}>{children}</body>
+      </html>
+    </SessionWrappper>
   );
 }
