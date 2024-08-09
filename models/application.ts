@@ -56,8 +56,6 @@ const applicationSchema = new Schema<ApplicationInterface>({
   },
 });
 
-const Application =
+export const Application =
   models.Application ||
   model<ApplicationInterface>("Application", applicationSchema);
-
-export default Application;

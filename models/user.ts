@@ -71,7 +71,5 @@ userSchema.methods.isValidPassword = async function (
 };
 
 // Create and export the model
-const User =
+export const User =
   models.User || model<UserInterface & UserMethods>("User", userSchema);
-
-export default User;
