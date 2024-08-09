@@ -1,11 +1,13 @@
-import { Schema, model, models } from "mongoose";
+import { Schema, model, models, Document } from "mongoose";
 import { hash, compare } from "bcrypt";
+import Application from "@/models/application"; // Ensure the import path is correct
 
 // Define interfaces for user and methods
-interface UserInterface {
+interface UserInterface extends Document {
   username: string;
   email: string;
   password: string;
+  applications: Schema.Types.ObjectId[]; // Reference to Application model
 }
 
 interface UserMethods {
@@ -36,17 +38,23 @@ const userSchema = new Schema<UserInterface & UserMethods>({
     maxlength: 128,
     required: [true, "Password is required"],
   },
+  applications: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: "Application",
+    },
+  ],
 });
 
 // Pre-save hook to hash the password
 userSchema.pre("save", async function (next) {
   if (this.isModified("password")) {
-    // Hash password only if it has been modified
     try {
       this.password = await hash(this.password, 10);
       next();
     } catch (error) {
-      next(error);
+      console.log(error as Error);
+      next(error as undefined); // Ensure errors are passed to the next middleware
     }
   } else {
     next();
@@ -54,12 +62,11 @@ userSchema.pre("save", async function (next) {
 });
 
 // Method to check if provided password is valid
-userSchema.method(
-  "isValidPassword",
-  async function (password: string): Promise<boolean> {
-    return compare(password, this.password);
-  }
-);
+userSchema.methods.isValidPassword = async function (
+  password: string
+): Promise<boolean> {
+  return compare(password, this.password);
+};
 
 // Create and export the model
 const User =
