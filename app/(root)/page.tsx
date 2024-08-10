@@ -1,5 +1,7 @@
 "use client";
 
+import Navbar from "@/components/Navbar";
+
 const page = () => {
   const handleClick = async () => {
     try {
@@ -18,11 +20,12 @@ const page = () => {
   };
 
   return (
-    <div>
+    <main>
+      <Navbar />
       <button onClick={handleClick} className="btn">
         Click me
       </button>
-    </div>
+    </main>
   );
 };
 
