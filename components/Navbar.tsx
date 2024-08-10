@@ -16,17 +16,17 @@ const Navbar = () => {
 
   return (
     <header className="max-w-7xl mx-auto px-10 py-3  ">
-      <nav className="flex justify-between items-center capitalize">
+      <nav className="flex justify-between items-center">
         {/*  */}
         <div className="flex justify-center items-center gap-3">
-          <h1 className="text-3xl font-bold md:mr-6">Trackify</h1>
+          <Link className="md:mr-6" href="/">
+            <h1 className="text-4xl font-bold">Trackify.me</h1>{" "}
+          </Link>
           {/* Desktop Navigation */}{" "}
           <ul className="md:flex hidden justify-center items-center gap-4">
             {navbarItems.map((item, index) => (
               <Link href={item.url} key={index}>
-                <li className="hover:underline text-gray-500 transition-all duration-1000">
-                  {item.title}
-                </li>
+                <li className="navbar_items">{item.title}</li>
               </Link>
             ))}
           </ul>
@@ -35,8 +35,8 @@ const Navbar = () => {
 
         <ul className="md:flex hidden justify-center items-center gap-4">
           {/* Replace with actual custom buttons */}
-          <li>register</li>
-          <li>login</li>
+          <button className="btn btn-outline">Register</button>
+          <button className="btn btn-neutral">Login</button>
         </ul>
 
         {/* passing the state into the mobile navigation */}
