@@ -3,5 +3,5 @@
 @tailwind utilities;
 
 .navbar_items {
-  @apply link link-hover capitalize;
+  @apply link link-hover capitalize text-[1.4rem] md:text-[1rem];
 }
