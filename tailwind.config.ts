@@ -12,7 +12,7 @@ const config: Config = {
   },
   plugins: [daisyui],
   daisyui: {
-    themes: ["garden", "black"], // custom themes from daisyui https://daisyui.com/docs/themes/
+    themes: ["forest", "garden"], // custom themes from daisyui https://daisyui.com/docs/themes/
   },
 };
 export default config;
