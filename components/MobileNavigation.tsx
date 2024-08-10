@@ -51,9 +51,7 @@ const MobileNavigation: React.FC<MobileNavigationProps> = ({
             <ul className="md:hidden flex flex-col justify-center items-center gap-4">
               {navbarItems.map((item, index) => (
                 <Link href={item.url} key={index}>
-                  <li className="hover:underline text-[#fff] text-xl md:text-sm md:text-gray-500 transition-all duration-1000">
-                    {item.title}
-                  </li>
+                  <li className="navbar_items">{item.title}</li>
                 </Link>
               ))}
             </ul>
