@@ -208,3 +208,26 @@ export const user = [
     password: "admin123456",
   },
 ];
+
+export const navbarItems = [
+  {
+    title: "Home",
+    url: "/",
+  },
+  {
+    title: "About",
+    url: "#about",
+  },
+  {
+    title: "Services",
+    url: "#services",
+  },
+  {
+    title: "Contact",
+    url: "#contact",
+  },
+  {
+    title: "Pricing",
+    url: "#pricing",
+  },
+];
