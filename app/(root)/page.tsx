@@ -1,5 +1,6 @@
 "use client";
 
+import Hero from "@/components/Hero";
 import Navbar from "@/components/Navbar";
 
 const page = () => {
@@ -22,9 +23,10 @@ const page = () => {
   return (
     <main>
       <Navbar />
-      <button onClick={handleClick} className="btn">
+      <Hero />
+      {/* <button onClick={handleClick} className="btn">
         Click me
-      </button>
+      </button> */}
     </main>
   );
 };
