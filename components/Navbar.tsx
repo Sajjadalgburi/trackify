@@ -15,7 +15,7 @@ const Navbar = () => {
   };
 
   return (
-    <header className="max-w-7xl mx-auto px-10 py-3  ">
+    <header className="max-w-[90vw] w-full mx-auto p-1 md:px-10 md:py-3  ">
       <nav className="flex justify-between items-center">
         {/*  */}
         <div className="flex justify-center items-center gap-3">
