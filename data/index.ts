@@ -231,3 +231,17 @@ export const navbarItems = [
     url: "#pricing",
   },
 ];
+
+export const heroData = {
+  title: "Stay on top of your job search with", // add trackify.me
+  textOne: "The #1 Job Application Tracker",
+  textTwo:
+    "Our intelligent platform helps you manage your job applications effortlessly. No more missed opportunities or forgotten follow-ups!",
+  listItems: [
+    "✔️ Organize all your applications in one place",
+    "✔️ Set reminders for follow-ups",
+    "✔️ Attach notes and documents to each application",
+    "✔️ Track application status and company details",
+  ],
+  tracked: "tracked over 782 applications",
+};
