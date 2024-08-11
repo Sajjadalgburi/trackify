@@ -25,19 +25,19 @@ const Navbar = () => {
           {/* Desktop Navigation */}{" "}
           <ul className="md:flex hidden justify-center items-center gap-4">
             {navbarItems.map((item, index) => (
-              <Link href={item.url} key={index}>
-                <li className="navbar_items">{item.title}</li>
-              </Link>
+              <li className="navbar_items" key={index}>
+                <Link href={item.url}>{item.title}</Link>
+              </li>
             ))}
           </ul>
           {/* This below is for mobile navigation */}
         </div>
 
-        <ul className="md:flex hidden justify-center items-center gap-4">
+        <div className="md:flex hidden justify-center items-center gap-4">
           {/* Replace with actual custom buttons */}
           <button className="btn btn-outline">Register</button>
           <button className="btn btn-neutral">Login</button>
-        </ul>
+        </div>
 
         {/* passing the state into the mobile navigation */}
         <MobileNavigation
