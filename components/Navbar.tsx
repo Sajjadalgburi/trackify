@@ -37,8 +37,7 @@ const Navbar = () => {
         <div className="md:flex hidden justify-center items-center gap-4">
           {/* Replace with actual custom buttons */}
 
-          <LoginOrSignUpBtn showRegister={true} />
-          <LoginOrSignUpBtn showRegister={false} />
+          <LoginOrSignUpBtn />
         </div>
 
         {/* passing the state into the mobile navigation */}
