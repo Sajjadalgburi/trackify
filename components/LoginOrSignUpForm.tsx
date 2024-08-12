@@ -3,6 +3,7 @@ import { useForm, SubmitHandler } from "react-hook-form";
 import { FaGithub, FaGoogle } from "react-icons/fa";
 
 type FormValues = {
+  username?: string;
   email: string;
   password: string;
 };
@@ -54,6 +55,25 @@ const LoginOrSignUpForm = ({ type }: { type: "login" | "register" }) => {
 
         {/* Form elements */}
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+          {type === "register" && (
+            <div>
+              <label className="block text-gray-400 mb-1" htmlFor="email">
+                Username
+              </label>
+              <input
+                id="username"
+                type="username"
+                {...register("username", { required: "username is required" })}
+                className="w-full px-3 py-2 bg-neutral text-white rounded"
+                placeholder="John Doe"
+              />
+              {errors.username && (
+                <p className="text-red-500 text-sm mt-1">
+                  {errors.username.message}
+                </p>
+              )}
+            </div>
+          )}
           <div>
             <label className="block text-gray-400 mb-1" htmlFor="email">
               Email
@@ -94,13 +114,17 @@ const LoginOrSignUpForm = ({ type }: { type: "login" | "register" }) => {
             <button
               disabled={isSubmitting}
               type="submit"
-              className="btn btn-secondary"
+              className={`btn ${
+                isSubmitting
+                  ? "btn-seccondary opacity-70"
+                  : "btn-secondary px-14"
+              }`}
             >
               {isSubmitting ? (
-                <span className="loading loading-dots loading-sm">
-                  {" "}
-                  Loading...
-                </span>
+                <div className="flex justify-center items-center gap-2">
+                  <p>submitting</p>
+                  <span className="loading loading-spinner loading-xs"></span>
+                </div>
               ) : type === "login" ? (
                 "Log In"
               ) : (
