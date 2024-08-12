@@ -12,6 +12,7 @@
   "dependencies": {
     "@radix-ui/react-label": "^2.1.0",
     "@tabler/icons-react": "^3.12.0",
+    "@types/react-icons": "^3.0.0",
     "bcrypt": "^5.1.1",
     "clsx": "^2.1.1",
     "framer-motion": "^11.3.24",
@@ -21,6 +22,8 @@
     "next-auth": "^4.24.7",
     "react": "^18",
     "react-dom": "^18",
+    "react-hook-form": "^7.52.2",
+    "react-icons": "^5.2.1",
     "tailwind-merge": "^2.5.1"
   },
   "devDependencies": {
