@@ -4,6 +4,7 @@ import { navbarItems } from "@/data";
 import Link from "next/link";
 import { useState } from "react";
 import MobileNavigation from "./MobileNavigation";
+import LoginOrSignUpBtn from "./LoginOrSignUpBtn";
 
 const Navbar = () => {
   // usestate to toggle the mobile navigation
@@ -35,8 +36,9 @@ const Navbar = () => {
 
         <div className="md:flex hidden justify-center items-center gap-4">
           {/* Replace with actual custom buttons */}
-          <button className="btn btn-outline">Register</button>
-          <button className="btn btn-neutral">Login</button>
+
+          <LoginOrSignUpBtn showRegister={true} />
+          <LoginOrSignUpBtn showRegister={false} />
         </div>
 
         {/* passing the state into the mobile navigation */}
