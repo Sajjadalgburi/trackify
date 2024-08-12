@@ -9,6 +9,7 @@ interface UserInterface extends Document {
   username: string;
   email: string;
   password: string;
+  image?: string;
   applications: Schema.Types.ObjectId[]; // Reference to Application model
 }
 
@@ -39,6 +40,11 @@ const userSchema = new Schema<UserInterface & UserMethods>({
     minlength: 8,
     maxlength: 128,
     required: [true, "Password is required"],
+  },
+  image: {
+    type: String,
+    required: false,
+    default: "/placeholder_img.png",
   },
   applications: [
     {
