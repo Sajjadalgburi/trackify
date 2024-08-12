@@ -1,35 +1,34 @@
-import { useRouter } from "next/navigation";
+import React, { useState } from "react";
+import Modal from "./Modal";
 
-const LoginOrSignUpBtn = ({ showRegister }: { showRegister: boolean }) => {
-  const router = useRouter();
+const LoginOrSignUpBtn = () => {
+  const [modalType, setModalType] = useState<"login" | "register" | null>(null);
 
-  const handleLoginClick = () => {
-    router.push("/login");
+  const handleOpenModal = (type: "login" | "register") => {
+    setModalType(type);
+    const modal = document.getElementById("my_modal") as HTMLDialogElement;
+    if (modal) {
+      modal.showModal();
+    }
   };
 
-  const handleRegisterClick = () => {
-    router.push("/register");
-  };
-
-  // this is the login button
-  const LoginBtn = () => {
-    return (
-      <button className="btn btn-neutral" onClick={handleLoginClick}>
-        Login
-      </button>
-    );
-  };
-
-  // this is the register button
-  const RegisterBtn = () => {
-    return (
-      <button className="btn btn-outline" onClick={handleRegisterClick}>
+  return (
+    <>
+      <button
+        className="btn btn-outline"
+        onClick={() => handleOpenModal("register")}
+      >
         Register
       </button>
-    );
-  };
-
-  return showRegister ? <RegisterBtn /> : <LoginBtn />;
+      <button
+        className="btn btn-neutral"
+        onClick={() => handleOpenModal("login")}
+      >
+        Login
+      </button>
+      {modalType && <Modal type={modalType} />}
+    </>
+  );
 };
 
 export default LoginOrSignUpBtn;
