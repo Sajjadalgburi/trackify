@@ -2,9 +2,12 @@
 
 import { navbarItems } from "@/data";
 import Link from "next/link";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import MobileNavigation from "./MobileNavigation";
 import LoginOrSignUpBtn from "./LoginOrSignUpBtn";
+
+// bunch of imports from next-auth to handle the session and authentication
+import { signIn, signOut, useSession, getProviders } from "next-auth/react";
 
 const Navbar = () => {
   // usestate to toggle the mobile navigation
@@ -14,6 +17,16 @@ const Navbar = () => {
   const handleToggleChange = () => {
     setToggle((prev) => !prev);
   };
+
+  const [providers, setProviders] = useState<Object[]>([]);
+
+  useEffect(() => {
+    async () => {
+      const res = await getProviders();
+      console.log(res);
+      // setProviders(res);
+    };
+  }, []);
 
   return (
     <header className="max-w-[90vw] w-full mx-auto p-1 md:px-10 md:py-3  ">
