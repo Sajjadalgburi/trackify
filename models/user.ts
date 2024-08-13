@@ -10,25 +10,19 @@ interface UserInterface extends Document {
   applications: Schema.Types.ObjectId[]; // Reference to Application model
 }
 
-interface UserMethods {
-  isValidPassword: (password: string) => Promise<boolean>;
-}
-
 // Create user schema
-const userSchema = new Schema<UserInterface & UserMethods>({
+const userSchema = new Schema<UserInterface>({
   username: {
     type: String,
     unique: true,
     minlength: 3,
     maxlength: 15,
-    match: [
-      /^(?=.{8,20}$)(?![_.])(?!.*[_.]{2})[a-zA-Z0-9._]+(?<![_.])$/, // Regex to ensure username is 8-20 characters long, alphanumeric, and doesn't start/end with special characters
-      "Username invalid, it should contain 8-20 alphanumeric letters and be unique!", // Custom error message for invalid username format
-    ],
+    trim: true,
     required: [true, "Username is required"],
   },
   email: {
     type: String,
+    trim: true,
     unique: true,
     validate: {
       validator: (email: string) => /^[^@]+@[^@]+\.[^@]+$/.test(email),
@@ -39,6 +33,7 @@ const userSchema = new Schema<UserInterface & UserMethods>({
   password: {
     type: String,
     minlength: 8,
+    trim: true,
     maxlength: 128,
     required: false, // this is set to false because we will be using OAuth providers for login and users can login without password
   },
@@ -55,28 +50,6 @@ const userSchema = new Schema<UserInterface & UserMethods>({
   ],
 });
 
-// Pre-save hook to hash the password
-userSchema.pre("save", async function (next) {
-  if (this.isModified("password")) {
-    try {
-      this.password = await hash(this.password, 10);
-      next();
-    } catch (error) {
-      console.log(error as Error);
-      next(error as Error); // Ensure errors are passed to the next middleware
-    }
-  } else {
-    next();
-  }
-});
-
-// Method to check if provided password is valid
-userSchema.methods.isValidPassword = async function (
-  password: string
-): Promise<boolean> {
-  return compare(password, this.password);
-};
-
 // Create and export the model
-export const User =
-  models.User || model<UserInterface & UserMethods>("User", userSchema);
+export const UserModel =
+  models.User || model<UserInterface>("User", userSchema);
