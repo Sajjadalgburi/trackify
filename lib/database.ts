@@ -4,7 +4,7 @@ import mongoose from "mongoose";
 let isConnected = false;
 
 const localUri = "mongodb://localhost:27017/Trackify";
-const uri = process.env.MONGODB_URI || localUri;
+const uri = process.env.MONGODB_URI as string;
 
 export const connectToMongoDb = async () => {
   if (isConnected) {
