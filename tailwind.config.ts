@@ -16,7 +16,7 @@ const config: Config = {
   },
   plugins: [daisyui, addVariablesForColors],
   daisyui: {
-    themes: ["forest"], // custom themes from daisyui https://daisyui.com/docs/themes/
+    themes: ["cupcake"], // custom themes from daisyui https://daisyui.com/docs/themes/
   },
 };
 
