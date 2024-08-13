@@ -10,6 +10,8 @@ import LoginOrSignUpBtn from "./LoginOrSignUpBtn";
 import { useSession, signOut } from "next-auth/react";
 import { Session } from "next-auth";
 
+import Image from "next/image";
+
 const Navbar = () => {
   // usestate to toggle the mobile navigation
   const [toggle, setToggle] = useState(false);
@@ -19,6 +21,14 @@ const Navbar = () => {
   // function to handle the toggle change
   const handleToggleChange = () => {
     setToggle((prev) => !prev);
+  };
+
+  const handleLogOut = async () => {
+    const userConfirmed = confirm("Are you sure you want to logout?");
+
+    if (userConfirmed) {
+      await signOut();
+    }
   };
 
   return (
@@ -42,13 +52,29 @@ const Navbar = () => {
           {session?.user ? (
             <>
               {/* logout button */}
-              <button onClick={() => signOut()} className="btn btn-accent">
+              <button onClick={handleLogOut} className="btn btn-accent">
                 Logout
               </button>
               {/* show dashboard button if user is logged in */}
               <button className="btn btn-neutral">
                 <Link href="/dashboard">Dashboard</Link>
               </button>{" "}
+              <Link href={"/"}>
+                <div
+                  className="tooltip tooltip-bottom flex justify-center items-center"
+                  data-tip="Your Profile"
+                >
+                  <Image
+                    src={
+                      (session?.user.image as string) || "/placeholder_img.png"
+                    }
+                    alt="user image"
+                    className="rounded-full"
+                    width={40}
+                    height={40}
+                  />{" "}
+                </div>
+              </Link>
             </>
           ) : (
             // show login or signup button if user is not logged in
