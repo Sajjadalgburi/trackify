@@ -8,6 +8,8 @@ import { connectToMongoDb } from "@/lib/database";
 // user modal
 import { User } from "@/models/user";
 
+import { Session } from "next-auth";
+
 // intiliazing the options for the authentication and passing some type references
 export const authOptions = {
   providers: [
@@ -23,7 +25,7 @@ export const authOptions = {
   ],
   callbacks: {
     // TODO: Implement type so that session.user.id is not any
-    async session({ session }) {
+    async session({ session }: { session: Session }) {
       // store the user id from MongoDB to session
       const sessionUser = await User.findOne({ email: session.user.email });
       session.user.id = sessionUser._id.toString();
@@ -51,10 +53,9 @@ export const authOptions = {
       try {
         await connectToMongoDb();
         // 1. Check if user already exists in the database
-        // 2. If not, create a new user in the database
-
         const existingUser = await User.findOne({ email: profile.email });
 
+        // 2. If not, create a new user in the database
         if (!existingUser) {
           await User.create({
             email: profile.email,
@@ -66,6 +67,7 @@ export const authOptions = {
 
         return true;
       } catch (error) {
+        // return false if there is an error in the sign in process
         console.error(error);
         return false;
       }
