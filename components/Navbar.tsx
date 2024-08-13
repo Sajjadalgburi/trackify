@@ -8,6 +8,7 @@ import LoginOrSignUpBtn from "./LoginOrSignUpBtn";
 
 // bunch of imports from next-auth to handle the session and authentication
 import { useSession, signOut } from "next-auth/react";
+import { Session } from "next-auth";
 
 const Navbar = () => {
   // usestate to toggle the mobile navigation
@@ -58,6 +59,7 @@ const Navbar = () => {
         {/*  */}
         {/* This below is for mobile navigation */}
         <MobileNavigation
+          session={session as Session}
           handleToggleChange={handleToggleChange}
           toggle={toggle}
         />
