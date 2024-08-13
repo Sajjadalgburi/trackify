@@ -29,7 +29,16 @@ export const authOptions = {
 
       return session;
     },
-    async signIn({ profile }) {
+    async signIn({
+      profile,
+    }: {
+      profile: {
+        email: string;
+        username: string;
+        password: string;
+        image: string;
+      };
+    }) {
       try {
         await connectToMongoDb();
         // 1. Check if user already exists in the database
