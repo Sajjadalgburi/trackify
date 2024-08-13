@@ -21,6 +21,10 @@ const userSchema = new Schema<UserInterface & UserMethods>({
     unique: true,
     minlength: 3,
     maxlength: 15,
+    match: [
+      /^(?=.{8,20}$)(?![_.])(?!.*[_.]{2})[a-zA-Z0-9._]+(?<![_.])$/, // Regex to ensure username is 8-20 characters long, alphanumeric, and doesn't start/end with special characters
+      "Username invalid, it should contain 8-20 alphanumeric letters and be unique!", // Custom error message for invalid username format
+    ],
     required: [true, "Username is required"],
   },
   email: {
@@ -36,7 +40,7 @@ const userSchema = new Schema<UserInterface & UserMethods>({
     type: String,
     minlength: 8,
     maxlength: 128,
-    required: [true, "Password is required"],
+    required: false, // this is set to false because we will be using OAuth providers for login and users can login without password
   },
   image: {
     type: String,
