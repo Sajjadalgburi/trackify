@@ -5,6 +5,7 @@ import { ClientSafeProvider, getProviders, signIn } from "next-auth/react";
 import React, { useEffect, useState } from "react";
 import { useForm, SubmitHandler, LiteralUnion } from "react-hook-form";
 import { FaGithub, FaGoogle } from "react-icons/fa";
+import { useRouter } from "next/navigation";
 
 // Form values type to ensure type safety and validation
 type FormValues = {
@@ -20,6 +21,8 @@ const LoginOrSignUpForm = ({ type }: { type: "login" | "register" }) => {
     reset,
     formState: { errors },
   } = useForm<FormValues>();
+
+  const router = useRouter();
 
   // function to handle the form submission and returing a promise and resetting the form after 2 seconds
   const onSubmit: SubmitHandler<FormValues> = async (data) => {
@@ -39,8 +42,8 @@ const LoginOrSignUpForm = ({ type }: { type: "login" | "register" }) => {
       if (result?.error) {
         console.error("Sign in error:", result.error);
       } else {
-        console.log("Sign in successful");
-        // Optionally, handle successful sign-in (e.g., redirect or show a message)
+        // redirect to the dashboard after successful login
+        router.push("/dashboard");
       }
     } catch (error) {
       console.error("An error occurred during sign-in:", error);
@@ -61,46 +64,49 @@ const LoginOrSignUpForm = ({ type }: { type: "login" | "register" }) => {
 
   // on component mount, fetch the providers using the getProviders function from next-auth
   useEffect(() => {
-    (async () => {
+    const getAllProviders = async () => {
       const res = await getProviders();
       setProviders(res);
-    })();
+    };
+    getAllProviders();
   }, []);
 
   return (
     <div className="flex items-center justify-center">
-      <div className="w-full p-8 shadow-md">
-        <h2 className="text-2xl text-center font-bold text-white mb-4">
+      <div className="w-full ">
+        <h2 className="md:text-6xl text-2xl text-center font-bold mb-4">
           {type === "login" ? "Log In" : "Sign Up"}
         </h2>
 
-        <p className="text-gray-400 text-center mb-6">
+        <p className="text-gray-600 text-center mb-6">
           Enter your credentials to {type === "login" ? "log in" : "sign up"}
         </p>
 
         {/* Google and GitHub */}
-        <div className="flex gap-4 mb-4">
+        <div className="flex justify-center gap-4">
           {/* if providers are available, map through them and display the
           buttons appropriately to sign in with the provider */}
           {providers &&
-            Object.values(providers).map((provider) => (
-              <button
-                type="button"
-                key={provider.name}
-                onClick={() => {
-                  signIn(provider.id);
-                }}
-                // TODO: Change the button style
-                className="flex-1 bg-neutral hover:bg-gray-600 text-white py-2 px-4 rounded flex items-center justify-center gap-2"
-              >
-                {provider.name}{" "}
-                {/* if the provider is github, show the github icon, else show the google icon */}
-                {provider.id === "github" ? <FaGithub /> : <FaGoogle />}
-              </button>
-            ))}
+            Object.values(providers)
+              // get the first two providers only
+              .slice(0, 2)
+              .map((provider) => (
+                <button
+                  type="button"
+                  key={provider.name}
+                  onClick={() => {
+                    signIn(provider.id), { callbackUrl: "/dashboard" };
+                  }}
+                  className="btn text-center btn-neutral px-6 md:px-14"
+                >
+                  {provider.name}{" "}
+                  {/* if the provider is github, show the github icon, else show the google icon */}
+                  {provider.id === "github" ? <FaGithub /> : <FaGoogle />}
+                </button>
+              ))}
         </div>
 
-        <div className="text-center text-sm text-gray-400 mb-4">
+        <div className="text-center tracking-[.2rem] md:tracking-[.4rem] text-sm text-gray-600 my-4">
           OR CONTINUE WITH
         </div>
 
@@ -108,7 +114,7 @@ const LoginOrSignUpForm = ({ type }: { type: "login" | "register" }) => {
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
           {type === "register" && (
             <div>
-              <label className="block text-gray-400 mb-1" htmlFor="email">
+              <label className="block text-gray-600 mb-1" htmlFor="email">
                 Username
               </label>
               <input
@@ -127,7 +133,7 @@ const LoginOrSignUpForm = ({ type }: { type: "login" | "register" }) => {
           )}
           {/*  */}
           <div>
-            <label className="block text-gray-400 mb-1" htmlFor="email">
+            <label className="block text-gray-600 mb-1" htmlFor="email">
               Email
             </label>
             <input
@@ -146,7 +152,7 @@ const LoginOrSignUpForm = ({ type }: { type: "login" | "register" }) => {
           {/*  */}
 
           <div>
-            <label className="block text-gray-400 mb-1" htmlFor="password">
+            <label className="block text-gray-600 mb-1" htmlFor="password">
               Password
             </label>
             <input
