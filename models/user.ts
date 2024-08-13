@@ -18,7 +18,7 @@ const userSchema = new Schema<UserInterface>({
     minlength: 3,
     maxlength: 15,
     trim: true,
-    required: [true, "Username is required"],
+    required: false,
   },
   email: {
     type: String,
@@ -28,7 +28,7 @@ const userSchema = new Schema<UserInterface>({
       validator: (email: string) => /^[^@]+@[^@]+\.[^@]+$/.test(email),
       message: "Please enter a valid email address",
     },
-    required: [true, "Email is required"],
+    required: false,
   },
   password: {
     type: String,
