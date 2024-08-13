@@ -1,9 +1,6 @@
 import { Schema, model, models, Document } from "mongoose";
 import { hash, compare } from "bcrypt";
 
-// Import the Application model
-import Application from "@/models/application";
-
 // Define interfaces for user and methods
 interface UserInterface extends Document {
   username: string;
