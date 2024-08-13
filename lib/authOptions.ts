@@ -22,6 +22,7 @@ export const authOptions = {
     }),
   ],
   callbacks: {
+    // TODO: Implement type so that session.user.id is not any
     async session({ session }) {
       // store the user id from MongoDB to session
       const sessionUser = await User.findOne({ email: session.user.email });
@@ -33,12 +34,20 @@ export const authOptions = {
       profile,
     }: {
       profile: {
+        name: string;
         email: string;
         username: string;
         password: string;
-        image: string;
+        picture?: string | null;
       };
     }) {
+      // log the profile object to the console
+      console.log("============================================");
+      console.log("============================================");
+      console.log(profile);
+      console.log("============================================");
+      console.log("============================================");
+
       try {
         await connectToMongoDb();
         // 1. Check if user already exists in the database
@@ -49,9 +58,9 @@ export const authOptions = {
         if (!existingUser) {
           await User.create({
             email: profile.email,
-            username: profile.username.replace(" ", "").toLowerCase(), // remove spaces and convert username to lowercase
+            username: profile.name.replace(" ", "").toLowerCase(), // remove spaces and convert username to lowercase
             password: profile.password,
-            image: profile.image,
+            image: profile.picture,
           });
         }
 
