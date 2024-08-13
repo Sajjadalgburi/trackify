@@ -1,5 +1,4 @@
 import { Schema, model, models, Document } from "mongoose";
-import { hash, compare } from "bcrypt";
 
 // Define interfaces for user and methods
 interface UserInterface extends Document {
