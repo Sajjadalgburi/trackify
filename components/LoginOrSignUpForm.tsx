@@ -1,7 +1,10 @@
-import React from "react";
-import { useForm, SubmitHandler } from "react-hook-form";
+import { BuiltInProviderType } from "next-auth/providers/index";
+import { ClientSafeProvider, getProviders, signIn } from "next-auth/react";
+import React, { useEffect, useState } from "react";
+import { useForm, SubmitHandler, LiteralUnion } from "react-hook-form";
 import { FaGithub, FaGoogle } from "react-icons/fa";
 
+// Form values type to ensure type safety and validation
 type FormValues = {
   username?: string;
   email: string;
@@ -16,6 +19,7 @@ const LoginOrSignUpForm = ({ type }: { type: "login" | "register" }) => {
     formState: { errors, isSubmitting },
   } = useForm<FormValues>();
 
+  // function to handle the form submission and returing a promise and resetting the form after 2 seconds
   const onSubmit: SubmitHandler<FormValues> = async (data) => {
     // must return a new promise for react-hook-form to work
     return new Promise<void>((resolve) => {
@@ -25,6 +29,23 @@ const LoginOrSignUpForm = ({ type }: { type: "login" | "register" }) => {
       }, 2000);
     });
   };
+
+  // fetching the providers from the getProviders function
+  const [providers, setProviders] =
+    // setting the type of the state to the Record of the providers.
+    // if this is not set, the typescript will throw an error
+    useState<Record<
+      LiteralUnion<BuiltInProviderType, string>,
+      ClientSafeProvider
+    > | null>(null);
+
+  // on component mount, fetch the providers using the getProviders function from next-auth
+  useEffect(() => {
+    (async () => {
+      const res = await getProviders();
+      setProviders(res);
+    })();
+  }, []);
 
   return (
     <div className="flex items-center justify-center">
@@ -39,14 +60,24 @@ const LoginOrSignUpForm = ({ type }: { type: "login" | "register" }) => {
 
         {/* Google and GitHub */}
         <div className="flex gap-4 mb-4">
-          <button className="flex-1 bg-neutral hover:bg-gray-600 text-white py-2 px-4 rounded flex items-center justify-center gap-2">
-            <FaGithub />
-            Github
-          </button>
-          <button className="flex-1 bg-neutral hover:bg-gray-600 text-white py-2 px-4 rounded flex items-center justify-center gap-2">
-            <FaGoogle />
-            Google
-          </button>
+          {/* if providers are available, map through them and display the
+          buttons appropriately to sign in with the provider */}
+          {providers &&
+            Object.values(providers).map((provider) => (
+              <button
+                type="button"
+                key={provider.name}
+                onClick={() => {
+                  signIn(provider.id);
+                }}
+                // TODO: Change the button style
+                className="flex-1 bg-neutral hover:bg-gray-600 text-white py-2 px-4 rounded flex items-center justify-center gap-2"
+              >
+                {provider.name}{" "}
+                {/* if the provider is github, show the github icon, else show the google icon */}
+                {provider.id === "github" ? <FaGithub /> : <FaGoogle />}
+              </button>
+            ))}
         </div>
 
         <div className="text-center text-sm text-gray-400 mb-4">
@@ -74,6 +105,7 @@ const LoginOrSignUpForm = ({ type }: { type: "login" | "register" }) => {
               )}
             </div>
           )}
+          {/*  */}
           <div>
             <label className="block text-gray-400 mb-1" htmlFor="email">
               Email
@@ -91,6 +123,8 @@ const LoginOrSignUpForm = ({ type }: { type: "login" | "register" }) => {
               </p>
             )}
           </div>
+          {/*  */}
+
           <div>
             <label className="block text-gray-400 mb-1" htmlFor="password">
               Password
