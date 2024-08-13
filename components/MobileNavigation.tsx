@@ -1,13 +1,16 @@
 "use client";
-
 // this is the mobile navigation component which accepts the toggle state and the function to handle the toggle change
 
 import React from "react";
 import { navbarItems } from "@/data";
 import Link from "next/link";
+import LoginOrSignUpBtn from "./LoginOrSignUpBtn";
+import { signOut } from "next-auth/react";
+import { Session } from "next-auth";
 
 // props for the mobile navigation component
 interface MobileNavigationProps {
+  session: Session;
   handleToggleChange: () => void;
   toggle: boolean;
 }
@@ -15,6 +18,7 @@ interface MobileNavigationProps {
 const MobileNavigation: React.FC<MobileNavigationProps> = ({
   handleToggleChange,
   toggle,
+  session,
 }) => {
   return (
     <>
@@ -54,6 +58,20 @@ const MobileNavigation: React.FC<MobileNavigationProps> = ({
                   <li className="navbar_items">{item.title}</li>
                 </Link>
               ))}
+
+              {/* Only if the user is logged in then display the log out buttons */}
+              {session?.user ? (
+                <>
+                  <button onClick={() => signOut()} className="btn btn-accent">
+                    Logout
+                  </button>
+                  <button className="btn btn-neutral">
+                    <Link href="/dashboard">Dashboard</Link>
+                  </button>{" "}
+                </>
+              ) : (
+                <LoginOrSignUpBtn />
+              )}
             </ul>
           </div>
         )}
