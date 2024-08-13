@@ -7,26 +7,44 @@ import MobileNavigation from "./MobileNavigation";
 import LoginOrSignUpBtn from "./LoginOrSignUpBtn";
 
 // bunch of imports from next-auth to handle the session and authentication
-import { signIn, signOut, useSession, getProviders } from "next-auth/react";
+import {
+  signIn,
+  signOut,
+  useSession,
+  getProviders,
+  ClientSafeProvider,
+  LiteralUnion,
+} from "next-auth/react";
+import { BuiltInProviderType } from "next-auth/providers/index";
 
 const Navbar = () => {
   // usestate to toggle the mobile navigation
   const [toggle, setToggle] = useState(false);
+
+  const { data: session } = useSession();
 
   // function to handle the toggle change
   const handleToggleChange = () => {
     setToggle((prev) => !prev);
   };
 
-  const [providers, setProviders] = useState<Object[]>([]);
+  // fetching the providers from the getProviders function
+  const [providers, setProviders] =
+    // setting the type of the state to the Record of the providers.
+    // if this is not set, the typescript will throw an error
+    useState<Record<
+      LiteralUnion<BuiltInProviderType, string>,
+      ClientSafeProvider
+    > | null>(null);
 
   useEffect(() => {
-    async () => {
+    (async () => {
       const res = await getProviders();
-      console.log(res);
-      // setProviders(res);
-    };
+      setProviders(res);
+    })();
   }, []);
+
+  console.log(providers);
 
   return (
     <header className="max-w-[90vw] w-full mx-auto p-1 md:px-10 md:py-3  ">
