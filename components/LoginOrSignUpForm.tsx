@@ -1,3 +1,5 @@
+"use client";
+
 import { BuiltInProviderType } from "next-auth/providers/index";
 import { ClientSafeProvider, getProviders, signIn } from "next-auth/react";
 import React, { useEffect, useState } from "react";
@@ -16,18 +18,36 @@ const LoginOrSignUpForm = ({ type }: { type: "login" | "register" }) => {
     register,
     handleSubmit,
     reset,
-    formState: { errors, isSubmitting },
+    formState: { errors },
   } = useForm<FormValues>();
 
   // function to handle the form submission and returing a promise and resetting the form after 2 seconds
   const onSubmit: SubmitHandler<FormValues> = async (data) => {
-    // must return a new promise for react-hook-form to work
-    return new Promise<void>((resolve) => {
-      setTimeout(() => {
-        resolve();
-        reset();
-      }, 2000);
-    });
+    try {
+      // Attempt to sign in the user with the data from the form
+      const result = await signIn(
+        "credentials",
+        {
+          redirect: false,
+          email: data?.email,
+          username: data?.username,
+          password: data?.password,
+        },
+        { callbackUrl: "/dashboard" }
+      );
+
+      if (result?.error) {
+        console.error("Sign in error:", result.error);
+      } else {
+        console.log("Sign in successful");
+        // Optionally, handle successful sign-in (e.g., redirect or show a message)
+      }
+    } catch (error) {
+      console.error("An error occurred during sign-in:", error);
+    } finally {
+      // Reset the form after submission
+      reset();
+    }
   };
 
   // fetching the providers from the getProviders function
@@ -145,25 +165,8 @@ const LoginOrSignUpForm = ({ type }: { type: "login" | "register" }) => {
 
           {/*  */}
           <div className="flex justify-center">
-            <button
-              disabled={isSubmitting}
-              type="submit"
-              className={`btn ${
-                isSubmitting
-                  ? "btn-seccondary opacity-70"
-                  : "btn-secondary px-14"
-              }`}
-            >
-              {isSubmitting ? (
-                <div className="flex justify-center items-center gap-2">
-                  <p>submitting</p>
-                  <span className="loading loading-spinner loading-xs"></span>
-                </div>
-              ) : type === "login" ? (
-                "Log In"
-              ) : (
-                "Sign Up"
-              )}
+            <button type="submit" className="btn btn-secondary px-14">
+              {type === "login" ? "Log In" : "Sign Up"}
             </button>
           </div>
         </form>
