@@ -59,7 +59,6 @@ const applicationSchema = new Schema<ApplicationInterface>({
   },
 });
 
-export const ApplicationModel = model<ApplicationInterface>(
-  "Application",
-  applicationSchema
-);
+export const ApplicationModel =
+  models.ApplicationModel ||
+  model<ApplicationInterface>("ApplicationModel", applicationSchema);
