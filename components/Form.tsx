@@ -35,6 +35,8 @@ const Form: React.FC<FormProps> = ({
 
       <form onSubmit={handleSubmit}>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-4">
+          {/*  */}
+          {/*  */}
           {/* Position Field */}
           <div className="form-control">
             <label className="label">
@@ -44,6 +46,7 @@ const Form: React.FC<FormProps> = ({
             </label>
 
             <input
+              value={application.position}
               className="input input-bordered"
               // regext pattern to match only letters and spaces
               {...(register("position"),
@@ -60,6 +63,7 @@ const Form: React.FC<FormProps> = ({
               </span>
             </label>
             <input
+              value={application.company}
               className="input input-bordered"
               // regext pattern to match only letters and spaces
               {...(register("company"),
@@ -75,7 +79,9 @@ const Form: React.FC<FormProps> = ({
                 Date <span className="text-red-500">*</span>
               </span>
             </label>
+
             <input
+              value={application.date}
               className="input input-bordered"
               // regext pattern to match date format
               {...(register("date"),
@@ -95,7 +101,11 @@ const Form: React.FC<FormProps> = ({
               </span>
             </label>
 
-            <select className="select select-bordered" {...register("status")}>
+            <select
+              value={application.status}
+              className="select select-bordered"
+              {...register("status")}
+            >
               <option>applied</option>
               <option>pending</option>
               <option>approved</option>
@@ -110,7 +120,9 @@ const Form: React.FC<FormProps> = ({
             <label className="label">
               <span className="label-text">URL</span>
             </label>
+
             <input
+              value={application.url}
               className="input input-bordered"
               // regext pattern to match only appropriate URL format
               {...(register("url"),
@@ -127,7 +139,9 @@ const Form: React.FC<FormProps> = ({
             <label className="label">
               <span className="label-text">Logo URL</span>
             </label>
+
             <input
+              value={application.logo}
               className="input input-bordered"
               // regext pattern to match only appropriate URL format
               {...(register("logo"),
@@ -144,7 +158,9 @@ const Form: React.FC<FormProps> = ({
             <label className="label">
               <span className="label-text">Location</span>
             </label>
+
             <input
+              value={application.location}
               className="input input-bordered"
               // regext pattern to match only appropriate location format
               {...(register("location"),
@@ -162,7 +178,9 @@ const Form: React.FC<FormProps> = ({
           <label className="label">
             <span className="label-text">Notes</span>
           </label>
+
           <textarea
+            value={application.note}
             className="textarea textarea-bordered h-40"
             {...(register("note"),
             {
