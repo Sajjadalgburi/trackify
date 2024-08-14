@@ -9,10 +9,13 @@ import { ApplicationStatus, ApplicationInterface } from "@/models/application";
 import Form from "@/components/Form";
 
 const Page = () => {
+  // custom useState to check wether the user has submitted the form
+  const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
+
   // useState hook to manage the state of the application object
   const [application, setApplication] = useState({
     position: "",
-    status: ApplicationStatus.PENDING,
+    status: ApplicationStatus.APPLIED,
     date: "",
     company: "",
     note: "",
@@ -24,24 +27,31 @@ const Page = () => {
   // useForm hook from react-hook-form to manage the form state which application interface will be used to define the form data
   const {
     register,
-    reset,
     handleSubmit,
-    formState: { isSubmitting },
+    reset,
+    formState: { errors },
   } = useForm<ApplicationInterface>();
 
-  const onSubmit = async (data: ApplicationInterface) => {
-    new Promise<void>((resolve) => {
-      setTimeout(async () => {
-        resolve();
-        console.log(data);
+  const onSubmit = async () => {
+    try {
+      setIsSubmitting(true);
+
+      console.log("application data", application);
+    } catch (error) {
+      console.error(error);
+      throw new Error("Failed to create application");
+    } finally {
+      // reset the form 2 secconds after submission
+      setTimeout(() => {
+        setIsSubmitting(false);
         reset();
-      }, 1000);
-    });
+      }, 2000);
+    }
   };
 
   return (
     <Form
-      type="Create"
+      typeOfForm="Create"
       application={application}
       setApplication={setApplication}
       submitting={isSubmitting}
