@@ -30,10 +30,6 @@ const Page = () => {
     fetchApplications();
   }, []);
 
-  console.log("====================================");
-  console.log(application);
-  console.log("====================================");
-
   return (
     <div className="p-3">
       <div>
