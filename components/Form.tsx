@@ -35,6 +35,7 @@ const Form: React.FC<FormProps> = ({
 
       <form onSubmit={handleSubmit}>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-4">
+          {/* Position Field */}
           <div className="form-control">
             <label className="label">
               <span className="label-text">
@@ -51,6 +52,7 @@ const Form: React.FC<FormProps> = ({
             />
           </div>
 
+          {/* Company Field */}
           <div className="form-control">
             <label className="label">
               <span className="label-text">
@@ -66,6 +68,7 @@ const Form: React.FC<FormProps> = ({
             />
           </div>
 
+          {/* Date Field */}
           <div className="form-control">
             <label className="label">
               <span className="label-text">
@@ -84,6 +87,7 @@ const Form: React.FC<FormProps> = ({
             />
           </div>
 
+          {/* Date Status */}
           <div className="form-control">
             <label className="label">
               <span className="label-text">
@@ -92,7 +96,7 @@ const Form: React.FC<FormProps> = ({
             </label>
 
             <select className="select select-bordered" {...register("status")}>
-              <option selected>applied</option>
+              <option>applied</option>
               <option>pending</option>
               <option>approved</option>
               <option>rejected</option>
@@ -101,6 +105,7 @@ const Form: React.FC<FormProps> = ({
             </select>
           </div>
 
+          {/* Url Field */}
           <div className="form-control">
             <label className="label">
               <span className="label-text">URL</span>
@@ -117,6 +122,7 @@ const Form: React.FC<FormProps> = ({
             />
           </div>
 
+          {/* Logo url Field */}
           <div className="form-control">
             <label className="label">
               <span className="label-text">Logo URL</span>
@@ -133,6 +139,7 @@ const Form: React.FC<FormProps> = ({
             />
           </div>
 
+          {/* Location Field */}
           <div className="form-control">
             <label className="label">
               <span className="label-text">Location</span>
@@ -150,6 +157,7 @@ const Form: React.FC<FormProps> = ({
           </div>
         </div>
 
+        {/* Notes Textarea */}
         <div className="form-control mt-4">
           <label className="label">
             <span className="label-text">Notes</span>
