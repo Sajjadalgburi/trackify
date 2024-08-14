@@ -1,13 +1,16 @@
 "use client";
 
+import { UseFormRegister, FieldValues } from "react-hook-form";
+import { InputHTMLAttributes } from "react";
+
 // note: thanks to chatGPT-4 for the layout. I repeat, form LAYOUT only. dont get too excited start to think it made this entire component. i did
 
-interface FormProps {
+interface FormProps extends InputHTMLAttributes<HTMLInputElement> {
   type: string;
   application: any;
   setApplication: any;
   submitting: boolean;
-  register: any;
+  register: UseFormRegister<FieldValues>;
   handleSubmit: (e?: React.BaseSyntheticEvent) => Promise<void>;
 }
 
@@ -25,51 +28,67 @@ const Form: React.FC<FormProps> = ({
         <h1 className="font-extrabold text-3xl md:text-7xl">
           {type} Application
         </h1>
-        <p className="font-light">
+        <p className="font-light mt-2 md:my-3 text-sm md:text-base">
           Fill in the form below to {type.toLowerCase()} an application
         </p>
       </div>
 
       <form onSubmit={handleSubmit}>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-4">
           <div className="form-control">
             <label className="label">
-              <span className="label-text">Position *</span>
+              <span className="label-text">
+                Position <span className="text-red-500">*</span>
+              </span>
             </label>
+
             <input
               className="input input-bordered"
-              {...(register("position"), { required: true })}
+              // regext pattern to match only letters and spaces
+              {...(register("position"),
+              { required: true, pattern: "^[a-zA-Z\\s]*$" })}
               placeholder="Position"
             />
           </div>
 
           <div className="form-control">
             <label className="label">
-              <span className="label-text">Company *</span>
+              <span className="label-text">
+                Company <span className="text-red-500">*</span>
+              </span>
             </label>
             <input
               className="input input-bordered"
               // regext pattern to match only letters and spaces
               {...(register("company"),
-              { required: true, pattern: /^[a-zA-Z\s]*$/ })}
+              { required: true, pattern: "^[a-zA-Z\\s]*$" })} // must place the regex in a string so that typescript will not complain
               placeholder="Company"
             />
           </div>
 
           <div className="form-control">
             <label className="label">
-              <span className="label-text">Date *</span>
+              <span className="label-text">
+                Date <span className="text-red-500">*</span>
+              </span>
             </label>
             <input
               className="input input-bordered"
-              {...register("date")}
+              // regext pattern to match date format
+              {...(register("date"),
+              {
+                required: true,
+                pattern: "^\\d{4}-\\d{2}-\\d{2}$",
+              })}
               type="date"
             />
           </div>
 
           <div className="form-control">
             <label className="label">
-              <span className="label-text">Status *</span>
+              <span className="label-text">
+                Status <span className="text-red-500">*</span>
+              </span>
             </label>
 
             <select className="select select-bordered" {...register("status")}>
@@ -88,7 +107,12 @@ const Form: React.FC<FormProps> = ({
             </label>
             <input
               className="input input-bordered"
-              {...register("url")}
+              // regext pattern to match only appropriate URL format
+              {...(register("url"),
+              {
+                required: false,
+                pattern: "^(http|https)://[^\\s$.?#].[^\\s]*$",
+              })}
               placeholder="URL"
             />
           </div>
@@ -99,7 +123,12 @@ const Form: React.FC<FormProps> = ({
             </label>
             <input
               className="input input-bordered"
-              {...register("logo")}
+              // regext pattern to match only appropriate URL format
+              {...(register("logo"),
+              {
+                required: false,
+                pattern: "^(http|https)://[^\\s$.?#].[^\\s]*$",
+              })}
               placeholder="Logo URL"
             />
           </div>
@@ -110,7 +139,12 @@ const Form: React.FC<FormProps> = ({
             </label>
             <input
               className="input input-bordered"
-              {...register("location")}
+              // regext pattern to match only appropriate location format
+              {...(register("location"),
+              {
+                required: false,
+                pattern: "^[a-zA-Z\\s]*$",
+              })}
               placeholder="Location"
             />
           </div>
@@ -122,7 +156,10 @@ const Form: React.FC<FormProps> = ({
           </label>
           <textarea
             className="textarea textarea-bordered h-40"
-            {...register("note")}
+            {...(register("note"),
+            {
+              required: false,
+            })}
             placeholder="Notes"
             onChange={(e) =>
               setApplication({ ...application, note: e.target.value })
@@ -130,6 +167,12 @@ const Form: React.FC<FormProps> = ({
           />
         </div>
 
+        {/* Custom message */}
+        <p className="text-sm">
+          <span className="text-red-500">*</span> indicates required field
+        </p>
+
+        {/* submit button */}
         <div className="flex justify-center mt-6">
           <button
             className="btn btn-neutral"
