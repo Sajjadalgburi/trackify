@@ -6,7 +6,7 @@ import { InputHTMLAttributes } from "react";
 // note: thanks to chatGPT-4 for the layout. I repeat, form LAYOUT only. dont get too excited start to think it made this entire component. i did
 
 interface FormProps extends InputHTMLAttributes<HTMLInputElement> {
-  type: string;
+  typeOfForm: string;
   application: any;
   setApplication: any;
   submitting: boolean;
@@ -15,7 +15,7 @@ interface FormProps extends InputHTMLAttributes<HTMLInputElement> {
 }
 
 const Form: React.FC<FormProps> = ({
-  type,
+  typeOfForm,
   application,
   setApplication,
   submitting,
@@ -26,11 +26,12 @@ const Form: React.FC<FormProps> = ({
     <div className="max-w-7xl mx-auto p-6">
       <div className="my-10 text-center">
         <h1 className="font-extrabold text-3xl md:text-7xl">
-          {type} Application
+          {typeOfForm} Application
         </h1>
         <p className="font-light mt-2 md:my-3 text-sm md:text-base">
-          Fill in the form below to {type.toLowerCase()} an application
+          Fill in the form below to {typeOfForm.toLowerCase()} an application
         </p>
+        {/* Button to navigate back into the url */}
       </div>
 
       <form onSubmit={handleSubmit}>
@@ -46,6 +47,9 @@ const Form: React.FC<FormProps> = ({
             </label>
 
             <input
+              onChange={(e) =>
+                setApplication({ ...application, position: e.target.value })
+              }
               value={application.position}
               className="input input-bordered"
               // regext pattern to match only letters and spaces
@@ -62,7 +66,11 @@ const Form: React.FC<FormProps> = ({
                 Company <span className="text-red-500">*</span>
               </span>
             </label>
+
             <input
+              onChange={(e) =>
+                setApplication({ ...application, company: e.target.value })
+              }
               value={application.company}
               className="input input-bordered"
               // regext pattern to match only letters and spaces
@@ -81,6 +89,9 @@ const Form: React.FC<FormProps> = ({
             </label>
 
             <input
+              onChange={(e) =>
+                setApplication({ ...application, date: e.target.value })
+              }
               value={application.date}
               className="input input-bordered"
               // regext pattern to match date format
@@ -103,8 +114,15 @@ const Form: React.FC<FormProps> = ({
 
             <select
               value={application.status}
+              onChange={(e) =>
+                setApplication({ ...application, status: e.target.value })
+              }
+              // value={application.status}
               className="select select-bordered"
-              {...register("status")}
+              {...(register("status"),
+              {
+                required: true,
+              })}
             >
               <option>applied</option>
               <option>pending</option>
@@ -122,6 +140,9 @@ const Form: React.FC<FormProps> = ({
             </label>
 
             <input
+              onChange={(e) =>
+                setApplication({ ...application, url: e.target.value })
+              }
               value={application.url}
               className="input input-bordered"
               // regext pattern to match only appropriate URL format
@@ -141,6 +162,9 @@ const Form: React.FC<FormProps> = ({
             </label>
 
             <input
+              onChange={(e) =>
+                setApplication({ ...application, logo: e.target.value })
+              }
               value={application.logo}
               className="input input-bordered"
               // regext pattern to match only appropriate URL format
@@ -160,6 +184,9 @@ const Form: React.FC<FormProps> = ({
             </label>
 
             <input
+              onChange={(e) =>
+                setApplication({ ...application, location: e.target.value })
+              }
               value={application.location}
               className="input input-bordered"
               // regext pattern to match only appropriate location format
@@ -199,16 +226,19 @@ const Form: React.FC<FormProps> = ({
         </p>
 
         {/* submit button */}
-        <div className="flex justify-center mt-6">
+        <div className="flex justify-center mt-6 gap-3">
           <button
             className="btn btn-neutral"
             type="submit"
             disabled={submitting}
           >
-            {submitting ? "Submitting..." : `${type} Application`}
+            {submitting ? "Submitting..." : `${typeOfForm} Application`}
           </button>
         </div>
       </form>
+      <button className="btn px-10" onClick={() => window.history.back()}>
+        Go back?
+      </button>
     </div>
   );
 };
