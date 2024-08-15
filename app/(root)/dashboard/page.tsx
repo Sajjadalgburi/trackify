@@ -1,8 +1,8 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { ApplicationInterface } from "@/models/application";
 import Link from "next/link";
+import { ApplicationInterface } from "@/interfaces";
 
 import Image from "next/image";
 const Page = () => {
@@ -38,7 +38,7 @@ const Page = () => {
         {/* display btn to "Track +" a new application which will redirect the user to /create/new? */}
 
         <div className="flex justify-end mr-10">
-          <Link href="/dashboard/create/application">
+          <Link href="/dashboard/create-application">
             {" "}
             <button className="btn btn-primary px-8">Create Application</button>
           </Link>

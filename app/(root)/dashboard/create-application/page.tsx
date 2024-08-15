@@ -3,10 +3,9 @@
 import { useForm } from "react-hook-form";
 import { useState } from "react";
 
-import { ApplicationStatus, ApplicationInterface } from "@/models/application";
-
 // form component that will be used to create a new job application
 import Form from "@/components/Form";
+import { ApplicationInterface } from "@/interfaces";
 
 const Page = () => {
   // custom useState to check wether the user has submitted the form
@@ -15,7 +14,7 @@ const Page = () => {
   // useState hook to manage the state of the application object
   const [application, setApplication] = useState({
     position: "",
-    status: ApplicationStatus.APPLIED,
+    status: "applied",
     date: "",
     company: "",
     note: "",
@@ -25,33 +24,40 @@ const Page = () => {
   });
 
   // useForm hook from react-hook-form to manage the form state which application interface will be used to define the form data
-  const {
-    register,
-    handleSubmit,
-    reset,
-    formState: { errors },
-  } = useForm<ApplicationInterface>();
+  const { register, handleSubmit } = useForm<ApplicationInterface>();
 
   const onSubmit = async () => {
     try {
       setIsSubmitting(true);
 
-      console.log("application data", application);
+      // making a POST request to the backend to save the newly created user application
     } catch (error) {
       console.error(error);
       throw new Error("Failed to create application");
     } finally {
       // reset the form 2 secconds after submission
       setTimeout(() => {
+        // set is submitting to false so that the button returns to original state
         setIsSubmitting(false);
-        reset();
+
+        // reset the application state manually
+        setApplication({
+          position: "",
+          status: "applied",
+          date: "",
+          company: "",
+          note: "",
+          url: "",
+          logo: "",
+          location: "",
+        });
       }, 2000);
     }
   };
 
   return (
     <Form
-      typeOfForm="Create"
+      typeOfForm="Track"
       application={application}
       setApplication={setApplication}
       submitting={isSubmitting}
