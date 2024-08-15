@@ -1,28 +1,27 @@
 // import mongodb and the user modal
 import { connectToMongoDb } from "@/lib/database";
-import { UserModel } from "@/models/user";
+import { User } from "@/models/user";
 
 // import the necessary types so that typescript can understand the types
-import { Profile, User, Account } from "next-auth";
+import { Profile, Account } from "next-auth";
 
 // the signIn function is called when the user signs in
 export const signIn = async ({
   profile,
 }: {
-  user: User;
   account: Account | null;
   profile?: Profile;
 }): Promise<boolean> => {
   try {
     await connectToMongoDb();
     // 1. Check if user already exists in the database
-    const existingUser = await UserModel.findOne({
+    const existingUser = await User.findOne({
       email: profile?.email,
     });
 
     // 2. If not, create a new user in the database
     if (!existingUser) {
-      await UserModel.create({
+      await User.create({
         email: profile?.email,
         username: profile?.name
           ?.replace(" ", "")

@@ -1,10 +1,10 @@
 import { connectToMongoDb } from "@/lib/database";
-import { ApplicationModel } from "@/models/application";
+import { Application } from "@/models/application";
 
 export const GET = async () => {
   try {
     await connectToMongoDb();
-    const applications = await ApplicationModel.find({});
+    const applications = await Application.find({});
 
     if (!applications) {
       return new Response(

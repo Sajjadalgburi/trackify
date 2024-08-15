@@ -50,5 +50,4 @@ const userSchema = new Schema<UserInterface>({
 });
 
 // Create and export the model
-export const UserModel =
-  models.User || model<UserInterface>("User", userSchema);
+export const User = models.User || model<UserInterface>("User", userSchema);

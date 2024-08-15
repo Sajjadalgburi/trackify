@@ -1,5 +1,5 @@
 import { connectToMongoDb } from "@/lib/database";
-import { UserModel } from "@/models/user";
+import { User } from "@/models/user";
 import { Application } from "@/models/application";
 import { applicationData, user } from "@/data";
 
@@ -9,10 +9,10 @@ export const GET = async () => {
 
   try {
     // Delete all the users and applications first
-    await UserModel.deleteMany({});
+    await User.deleteMany({});
     await Application.deleteMany({});
 
-    const createUser = await UserModel.create(user);
+    const createUser = await User.create(user);
     const createApplications = await Application.insertMany(applicationData);
 
     if (!createApplications) {

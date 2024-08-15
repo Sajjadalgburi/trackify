@@ -1,5 +1,5 @@
 // user modal
-import { UserModel } from "@/models/user";
+import { User } from "@/models/user";
 
 // import the necessary types so that typescript can understand the types
 import { Session } from "next-auth";
@@ -10,7 +10,7 @@ export const session = async ({
   session: Session;
 }): Promise<Session> => {
   // store the user id from MongoDB to session
-  const sessionUser = await UserModel.findOne({
+  const sessionUser = await User.findOne({
     email: session.user.email,
   });
 

@@ -5,7 +5,7 @@ import CredentialsProvider from "next-auth/providers/credentials";
 
 // mongodb and the user modal
 import { connectToMongoDb } from "@/lib/database";
-import { UserModel } from "@/models/user";
+import { User } from "@/models/user";
 
 // bcrypt for hashing the password before saving it to the database
 import bcrypt from "bcrypt";
@@ -58,7 +58,7 @@ export const authOptions: NextAuthOptions = {
           await connectToMongoDb();
 
           // Look up the user from the credentials supplied
-          let user = await UserModel.findOne({ email: credentials.email });
+          let user = await User.findOne({ email: credentials.email });
 
           if (!user) {
             // If user does not exist, create a new user
@@ -68,7 +68,7 @@ export const authOptions: NextAuthOptions = {
               throw new Error("Password hashing failed");
             }
 
-            user = await UserModel.create({
+            user = await User.create({
               email: credentials.email,
               username: credentials.username
                 .replace(" ", "")
