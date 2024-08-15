@@ -1,26 +1,5 @@
-import { Schema, model, models, Document } from "mongoose";
-
-// Define the application status enum
-export enum ApplicationStatus {
-  PENDING = "pending",
-  APPROVED = "approved",
-  REJECTED = "rejected",
-  OFFER = "offer",
-  APPLIED = "applied",
-  INTERVIEW = "interview",
-}
-
-// Define the application interface to also extend the Document interface from Mongoose so that typescript can recognize it as a Mongoose document
-export interface ApplicationInterface extends Document {
-  position: string;
-  status: ApplicationStatus;
-  date?: string;
-  company: string;
-  note?: string;
-  url?: string;
-  logo?: string;
-  location?: string;
-}
+import { Schema, model, models } from "mongoose";
+import { ApplicationStatus, ApplicationInterface } from "@/interfaces";
 
 // Create the application schema
 const applicationSchema = new Schema<ApplicationInterface>({
@@ -59,6 +38,6 @@ const applicationSchema = new Schema<ApplicationInterface>({
   },
 });
 
-export const ApplicationModel =
-  models.ApplicationModel ||
-  model<ApplicationInterface>("ApplicationModel", applicationSchema);
+export const Application =
+  models.Application ||
+  model<ApplicationInterface>("Application", applicationSchema);
