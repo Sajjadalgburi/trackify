@@ -7,9 +7,16 @@ import { useState } from "react";
 import Form from "@/components/Form";
 import { ApplicationInterface } from "@/interfaces";
 
+import { useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
+
 const Page = () => {
   // custom useState to check wether the user has submitted the form
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
+
+  const { data: session } = useSession();
+
+  const router = useRouter();
 
   // useState hook to manage the state of the application object
   const [application, setApplication] = useState({
@@ -30,7 +37,28 @@ const Page = () => {
     try {
       setIsSubmitting(true);
 
-      // making a POST request to the backend to save the newly created user application
+      console.log(application);
+
+      // making a POST request to the backend to save the newly created user application /api/application/new
+      const response = await fetch("/api/application/new", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          ...application,
+          userId: session?.user.id,
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to create application");
+      } else {
+        setTimeout(() => {
+          router.push("/dashboard");
+          alret("Application created successfully");
+        }, 2000);
+      }
     } catch (error) {
       console.error(error);
       throw new Error("Failed to create application");
