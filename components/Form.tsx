@@ -2,6 +2,7 @@
 
 import { UseFormRegister, FieldValues } from "react-hook-form";
 import { InputHTMLAttributes } from "react";
+import { GoBackBtn } from "@/components/GoBackBtn";
 
 // note: thanks to chatGPT-4 for the layout. I repeat, form LAYOUT only. dont get too excited start to think it made this entire component. i did
 
@@ -236,9 +237,7 @@ const Form: React.FC<FormProps> = ({
           </button>
         </div>
       </form>
-      <button className="btn px-10" onClick={() => window.history.back()}>
-        Go back?
-      </button>
+      <GoBackBtn />
     </div>
   );
 };
