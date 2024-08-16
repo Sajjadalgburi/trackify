@@ -33,53 +33,55 @@ const Page = () => {
   // useForm hook from react-hook-form to manage the form state which application interface will be used to define the form data
   const { register, handleSubmit } = useForm<ApplicationInterface>();
 
-  const onSubmit = async () => {
+  const onSubmit = async (): Promise<void> => {
     try {
       setIsSubmitting(true);
 
-      console.log(application);
+      // Ensure session is available before proceeding
+      if (!session || !session.user) {
+        throw new Error("User session is not available");
+      }
 
       // making a POST request to the backend to save the newly created user application /api/application/new
       const response = await fetch("/api/application/new", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
         body: JSON.stringify({
-          ...application,
-          userId: session?.user.id,
+          company: application.company,
+          position: application.position,
+          status: application.status,
+          date: application.date,
+          note: application.note,
+          url: application.url,
+          logo: application.logo,
+          location: application.location,
+          userId: session?.user?.id,
         }),
       });
 
       if (!response.ok) {
-        throw new Error("Failed to create application");
-      } else {
-        setTimeout(() => {
-          router.push("/dashboard");
-          alret("Application created successfully");
-        }, 2000);
+        throw new Error("Request to send application to the server failed");
       }
+
+      alert("Application created successfully");
+      router.push("/dashboard");
     } catch (error) {
       console.error(error);
-      throw new Error("Failed to create application");
+      alert("Failed to create application");
     } finally {
-      // reset the form 2 secconds after submission
-      setTimeout(() => {
-        // set is submitting to false so that the button returns to original state
-        setIsSubmitting(false);
+      // reset the form and isSubmitting state after submission
+      setIsSubmitting(false);
 
-        // reset the application state manually
-        setApplication({
-          position: "",
-          status: "applied",
-          date: "",
-          company: "",
-          note: "",
-          url: "",
-          logo: "",
-          location: "",
-        });
-      }, 2000);
+      // reset the application state manually
+      setApplication({
+        position: "",
+        status: "applied",
+        date: "",
+        company: "",
+        note: "",
+        url: "",
+        logo: "",
+        location: "",
+      });
     }
   };
 
