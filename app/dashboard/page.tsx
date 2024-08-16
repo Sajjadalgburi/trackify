@@ -3,24 +3,34 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { ApplicationInterface } from "@/interfaces";
-
 import Image from "next/image";
+import { useSession } from "next-auth/react";
+import { GoBackBtn } from "@/components/GoBackBtn";
+
 const Page = () => {
   // allow the use state to accept the ApplicationInterface
-
   const [application, setApplication] = useState<ApplicationInterface[]>([]);
+
+  // grabbing the user id from the session and then passing it as a header to the fetch request to get the applications of that user
+  const { data: session } = useSession();
+  const userId = session?.user?.id;
 
   // useffect to fetch applications from /api/applications
   useEffect(() => {
     const fetchApplications = async () => {
       try {
-        const res = await fetch("/api/application");
+        const response = await fetch("/api/application", {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${userId}`,
+          },
+        });
 
-        if (!res.ok) {
+        if (!response.ok) {
           throw new Error("An error occurred while fetching applications");
         }
 
-        const data = await res.json();
+        const data = await response.json();
         setApplication(data);
       } catch (error) {
         console.error("An error occurred during fetching applications:", error);
@@ -28,11 +38,12 @@ const Page = () => {
     };
 
     fetchApplications();
-  }, []);
+  }, [userId]);
 
   return (
     <div className="p-3">
       <div>
+        <GoBackBtn />
         <h1 className="text-7xl font-bold mt-10 text-center">Applications</h1>
         <br />
         {/* display btn to "Track +" a new application which will redirect the user to /create/new? */}
