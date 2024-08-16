@@ -1,11 +1,10 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import Link from "next/link";
 import { ApplicationInterface } from "@/interfaces";
-import Image from "next/image";
 import { useSession } from "next-auth/react";
-import { GoBackBtn } from "@/components/GoBackBtn";
+import CardElement from "@/components/CardElement";
+import BottomNav from "@/components/BottomNav";
 
 const Page = () => {
   // allow the use state to accept the ApplicationInterface
@@ -19,6 +18,7 @@ const Page = () => {
   useEffect(() => {
     const fetchApplications = async () => {
       try {
+        // fetching the applications from the api and passing the user id as a header authorization
         const response = await fetch("/api/application", {
           method: "GET",
           headers: {
@@ -26,10 +26,12 @@ const Page = () => {
           },
         });
 
+        // if the response is not ok, throw an error
         if (!response.ok) {
           throw new Error("An error occurred while fetching applications");
         }
 
+        // json the response and set the application state
         const data = await response.json();
         setApplication(data);
       } catch (error) {
@@ -41,71 +43,16 @@ const Page = () => {
   }, [userId]);
 
   return (
-    <div className="p-3">
-      <div>
-        <GoBackBtn />
-        <h1 className="text-7xl font-bold mt-10 text-center">Applications</h1>
-        <br />
-        {/* display btn to "Track +" a new application which will redirect the user to /create/new? */}
-
-        <div className="flex justify-end mr-10">
-          <Link href="/dashboard/create-application">
-            {" "}
-            <button className="btn btn-primary px-8">Create Application</button>
-          </Link>
-        </div>
-
-        <br />
-        <ul>
-          <div className="flex gap-8 flex-wrap">
-            {application.map((item, i) => (
-              // interating through the applications and displaying them
-              <div key={i} className="card bg-base-100 w-96 shadow-2xl">
-                <div className="card-body">
-                  <div className="flex items-center">
-                    <Image
-                      alt={item?.logo as string}
-                      width={30}
-                      height={30}
-                      src={"/placeholder_img.png"}
-                      className="mr-4"
-                    />
-                    <h2 className="card-title">{item.company}</h2>
-                  </div>
-                  <p>
-                    <strong>Position:</strong> {item?.position}
-                  </p>
-                  <p>
-                    <strong>Date:</strong> {item?.date}
-                  </p>
-                  <p>
-                    <strong>Location:</strong> {item?.location}
-                  </p>
-                  <p>
-                    <strong>Note:</strong> {item?.note}
-                  </p>
-                  <p>
-                    <strong>Status:</strong> {item?.status}
-                  </p>
-                  <p>
-                    <strong>URL:</strong>{" "}
-                    <a
-                      href={item?.url}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      {item?.url}
-                    </a>
-                  </p>
-                  <div className="card-actions justify-end">
-                    <button className="btn btn-primary">More Info</button>
-                  </div>
-                </div>
-              </div>
-            ))}{" "}
-          </div>
-        </ul>
+    <div className="relative">
+      <div className="flex justify-between items-start">
+        <CardElement type="Other" jobCount={3} />
+        <CardElement type="Applied" jobCount={9} />
+        <CardElement type="interview" jobCount={1} />
+        <CardElement type="rejected" jobCount={88} />
+        <CardElement type="pending" jobCount={0} />
       </div>
+
+      <BottomNav />
     </div>
   );
 };
