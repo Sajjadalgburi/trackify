@@ -5,6 +5,7 @@ import { ApplicationInterface } from "@/interfaces";
 import { useSession } from "next-auth/react";
 import CardElement from "@/components/CardElement";
 import BottomNav from "@/components/BottomNav";
+import { filterByStatus } from "@/lib/helper";
 
 const Page = () => {
   // allow the use state to accept the ApplicationInterface
@@ -42,14 +43,30 @@ const Page = () => {
     fetchApplications();
   }, [userId]);
 
+  // filter the applications based on the status and pass each status to the appropriate card
   return (
     <div className="relative">
       <div className="flex justify-between items-start">
-        <CardElement type="Other" jobCount={3} />
-        <CardElement type="Applied" jobCount={9} />
-        <CardElement type="interview" jobCount={1} />
-        <CardElement type="rejected" jobCount={88} />
-        <CardElement type="pending" jobCount={0} />
+        <CardElement
+          application={filterByStatus(application, "offer")}
+          type="offer"
+        />
+        <CardElement
+          application={filterByStatus(application, "applied")}
+          type="applied"
+        />
+        <CardElement
+          application={filterByStatus(application, "interview")}
+          type="interview"
+        />
+        <CardElement
+          application={filterByStatus(application, "rejected")}
+          type="rejected"
+        />
+        <CardElement
+          application={filterByStatus(application, "pending")}
+          type="pending"
+        />
       </div>
 
       <BottomNav />
