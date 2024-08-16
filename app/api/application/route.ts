@@ -1,26 +1,39 @@
 import { connectToMongoDb } from "@/lib/database";
-import { Application } from "@/models/application";
+import { User } from "@/models/User";
+import { NextRequest, NextResponse } from "next/server";
 
-export const GET = async () => {
+export const GET = async (req: NextRequest) => {
   try {
     await connectToMongoDb();
-    const applications = await Application.find({});
 
-    if (!applications) {
-      return new Response(
-        JSON.stringify({ message: "No applications found" }),
+    // Grab the user ID from the authorization header
+    const authHeader = await req.headers.get("authorization");
+    let userId: string | undefined = authHeader?.split(" ")[1];
+
+    if (!userId) {
+      return new NextResponse(
+        JSON.stringify({ message: "User not authenticated" }),
         {
-          status: 404,
+          status: 401,
         }
       );
     }
 
-    return new Response(JSON.stringify(applications), {
+    // Find the user by ID and populate their applications
+    const user = await User.findById(userId).populate("applications").exec();
+
+    if (!user) {
+      return new NextResponse(JSON.stringify({ message: "User not found" }), {
+        status: 404,
+      });
+    }
+
+    return new NextResponse(JSON.stringify(user.applications), {
       status: 200,
     });
   } catch (error) {
     console.error("Error in fetching applications", error);
-    return new Response(
+    return new NextResponse(
       JSON.stringify({ message: "Error in fetching applications" }),
       {
         status: 500,
