@@ -1,5 +1,5 @@
 // user modal
-import { User } from "@/models/user";
+import { User } from "@/models/User";
 
 // import the necessary types so that typescript can understand the types
 import { Session } from "next-auth";

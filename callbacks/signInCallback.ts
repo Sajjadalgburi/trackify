@@ -1,6 +1,6 @@
 // import mongodb and the user modal
 import { connectToMongoDb } from "@/lib/database";
-import { User } from "@/models/user";
+import { User } from "@/models/User";
 
 // import the necessary types so that typescript can understand the types
 import { Profile, Account } from "next-auth";
