@@ -5,7 +5,7 @@ import CredentialsProvider from "next-auth/providers/credentials";
 
 // mongodb and the user modal
 import { connectToMongoDb } from "@/lib/database";
-import { User } from "@/models/user";
+import { User } from "@/models/User";
 
 // bcrypt for hashing the password before saving it to the database
 import bcrypt from "bcrypt";
