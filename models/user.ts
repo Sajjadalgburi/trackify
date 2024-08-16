@@ -1,4 +1,5 @@
 import { Schema, model, models, Document } from "mongoose";
+import { applicationSchema } from "./Application";
 
 // Define interfaces for user and methods
 interface UserInterface extends Document {
@@ -41,12 +42,7 @@ const userSchema = new Schema<UserInterface>({
     required: false,
     default: "/placeholder_img.png",
   },
-  applications: [
-    {
-      type: Schema.Types.ObjectId,
-      ref: "Application",
-    },
-  ],
+  applications: [applicationSchema],
 });
 
 // Create and export the model

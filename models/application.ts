@@ -2,7 +2,7 @@ import { Schema, model, models } from "mongoose";
 import { ApplicationStatus, ApplicationInterface } from "@/interfaces";
 
 // Create the application schema
-const applicationSchema = new Schema<ApplicationInterface>({
+export const applicationSchema = new Schema<ApplicationInterface>({
   position: {
     type: String,
     required: [true, "Position is required"],
@@ -37,7 +37,3 @@ const applicationSchema = new Schema<ApplicationInterface>({
     type: String,
   },
 });
-
-export const Application =
-  models.Application ||
-  model<ApplicationInterface>("Application", applicationSchema);
