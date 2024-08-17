@@ -239,11 +239,14 @@ const Form: React.FC<FormProps> = ({
             type="submit"
             disabled={submitting}
           >
-            {submitting ? "Submitting..." : `${typeOfForm} Application`}
+            {submitting
+              ? typeOfForm === "Edit"
+                ? "Editing..."
+                : "Submitting..."
+              : `${typeOfForm} Application`}
           </button>
         </div>
       </form>
-      <GoBackBtn />
     </div>
   );
 };
