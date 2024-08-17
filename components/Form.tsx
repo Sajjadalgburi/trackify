@@ -11,7 +11,7 @@ interface FormProps extends InputHTMLAttributes<HTMLInputElement> {
   application: any;
   setApplication: any;
   submitting: boolean;
-  register: UseFormRegister<FieldValues>;
+  register: any;
   handleSubmit: (e?: React.BaseSyntheticEvent) => Promise<void>;
 }
 
@@ -126,7 +126,7 @@ const Form: React.FC<FormProps> = ({
               onChange={(e) =>
                 setApplication({ ...application, status: e.target.value })
               }
-              className="select select-bordered"
+              className="select select-bordered capitalize cursor-pointer"
               {...(register("status"),
               {
                 required: true,
