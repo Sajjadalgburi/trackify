@@ -10,6 +10,7 @@ import { ApplicationInterface } from "@/interfaces";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import DashboardLayout from "../DashboardLayout";
+import { useSearchParams } from "next/navigation";
 
 const Page = () => {
   // custom useState to check wether the user has submitted the form
@@ -19,10 +20,19 @@ const Page = () => {
 
   const router = useRouter();
 
+  // grab the status id from the URL
+  const searchParams = useSearchParams();
+  const applicationStatus = searchParams.get("type");
+
+  // either use the applicationStatus from the URL or default to applied
+  const status = applicationStatus || "applied";
+
+  console.log("status", status);
+
   // useState hook to manage the state of the application object
   const [application, setApplication] = useState({
     position: "",
-    status: "applied",
+    status: status,
     date: "",
     company: "",
     note: "",
