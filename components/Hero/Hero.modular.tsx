@@ -1,11 +1,12 @@
 import { heroData } from "@/data";
+import LoginOrSignUpBtn from "../LoginOrSignUpBtn";
 
 const HeroContent = () => {
   return (
     <div className="flex flex-col md:text-left text-center">
       <h1 className="text-5xl font-bold pr-10 capitalize">
         {heroData.title}{" "}
-        <span className="text_gradient font-extrabold">trackify.me</span>
+        <span className="text-secondary font-extrabold">trackify.me</span>
       </h1>
 
       <p className="text-base md:ml-8 my-5 tracking-[.2rem] text-gray-500">
@@ -27,9 +28,7 @@ const HeroContent = () => {
 
       {/* Button to 'get started' */}
       <div className="flex md:justify-start justify-center ">
-        <button className="btn btn-outline px-10 capitalize">
-          get started
-        </button>
+        <LoginOrSignUpBtn bothBtn={false} />
       </div>
 
       {/* this will display the application tracked */}
