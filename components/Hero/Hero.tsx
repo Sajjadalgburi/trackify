@@ -11,8 +11,8 @@ const Hero = () => {
         <div>
           <img
             className="rounded-xl shadow-xl"
-            width={1000}
-            height={1000}
+            width={750}
+            height={750}
             src="https://placehold.co/100x100"
             alt="placeholder image"
           />
