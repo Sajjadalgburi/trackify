@@ -95,6 +95,14 @@ const Form: React.FC<FormProps> = ({
               }
               value={application.date}
               className="input input-bordered"
+              min={new Date().toISOString().split("T")[0]} // Prevents selecting a past date
+              // chat gpt-4: i think this is a good idea to prevent selecting a past date
+              // lol co-pilot wrote the above comment
+              max={
+                new Date(new Date().setFullYear(new Date().getFullYear() + 1))
+                  .toISOString()
+                  .split("T")[0]
+              } // Sets the maximum date to one year from today
               // regext pattern to match date format
               {...(register("date"),
               {
@@ -118,7 +126,6 @@ const Form: React.FC<FormProps> = ({
               onChange={(e) =>
                 setApplication({ ...application, status: e.target.value })
               }
-              // value={application.status}
               className="select select-bordered"
               {...(register("status"),
               {
@@ -127,7 +134,6 @@ const Form: React.FC<FormProps> = ({
             >
               <option>applied</option>
               <option>pending</option>
-              <option>approved</option>
               <option>rejected</option>
               <option>offer</option>
               <option>interview</option>
