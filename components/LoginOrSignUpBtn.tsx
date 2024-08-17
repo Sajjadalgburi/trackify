@@ -1,7 +1,11 @@
 import React, { useState } from "react";
 import Modal from "./Modal";
 
-const LoginOrSignUpBtn = () => {
+interface LoginOrSignUpBtnProps {
+  bothBtn: boolean;
+}
+
+const LoginOrSignUpBtn: React.FC<LoginOrSignUpBtnProps> = ({ bothBtn }) => {
   const [modalType, setModalType] = useState<"login" | "register" | null>(null);
 
   const handleOpenModal = (type: "login" | "register") => {
@@ -12,16 +16,16 @@ const LoginOrSignUpBtn = () => {
     }
   };
 
-  return (
+  const renderBothBtns = () => (
     <>
       <button
-        className="btn btn-outline"
+        className="btn btn-outline px-7"
         onClick={() => handleOpenModal("register")}
       >
         Register
       </button>
       <button
-        className="btn btn-neutral"
+        className="btn btn-accent px-7"
         onClick={() => handleOpenModal("login")}
       >
         Login
@@ -29,6 +33,20 @@ const LoginOrSignUpBtn = () => {
       {modalType && <Modal type={modalType} />}
     </>
   );
+
+  const renderRegisterBtn = () => (
+    <>
+      <button
+        className="btn btn-outline px-7"
+        onClick={() => handleOpenModal("register")}
+      >
+        Register
+      </button>
+      {modalType && <Modal type={modalType} />}
+    </>
+  );
+
+  return bothBtn ? renderBothBtns() : renderRegisterBtn();
 };
 
 export default LoginOrSignUpBtn;
