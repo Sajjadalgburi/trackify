@@ -6,13 +6,6 @@
   @apply link link-hover capitalize text-[1.4rem] md:text-[1rem];
 }
 
-.text_gradient {
-  background: linear-gradient(
-    90deg,
-    rgba(58, 232, 73, 0.8) 0%,
-    rgba(25, 118, 10, 0.8) 100%
-  );
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
+.select option {
+  @apply border border-[#f9f9f9] bg-[#f9f9f9] text-[#333333] text-[1rem];
 }
