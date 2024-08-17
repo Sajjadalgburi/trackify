@@ -9,6 +9,7 @@ import { ApplicationInterface } from "@/interfaces";
 
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
+import DashboardLayout from "../DashboardLayout";
 
 const Page = () => {
   // custom useState to check wether the user has submitted the form
@@ -86,14 +87,17 @@ const Page = () => {
   };
 
   return (
-    <Form
-      typeOfForm="Track"
-      application={application}
-      setApplication={setApplication}
-      submitting={isSubmitting}
-      register={register} // passed the register function from react-hook-form to the Form component
-      handleSubmit={handleSubmit(onSubmit)} // wrap onSubmit with handleSubmit from react-hook-form
-    />
+    <DashboardLayout>
+      {" "}
+      <Form
+        typeOfForm="Track"
+        application={application}
+        setApplication={setApplication}
+        submitting={isSubmitting}
+        register={register} // passed the register function from react-hook-form to the Form component
+        handleSubmit={handleSubmit(onSubmit)} // wrap onSubmit with handleSubmit from react-hook-form
+      />
+    </DashboardLayout>
   );
 };
 
