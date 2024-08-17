@@ -4,8 +4,8 @@ import { useEffect, useState } from "react";
 import { ApplicationInterface } from "@/interfaces";
 import { useSession } from "next-auth/react";
 import CardElement from "@/components/CardElement";
-import BottomNav from "@/components/BottomNav";
 import { filterByStatus } from "@/lib/helper";
+import DashboardLayout from "./DashboardLayout";
 
 const Page = () => {
   // allow the use state to accept the ApplicationInterface
@@ -19,6 +19,9 @@ const Page = () => {
   useEffect(() => {
     const fetchApplications = async () => {
       try {
+        // gracefully handle the case where the user id is not available. this will prevent the backend from throwing an error when trying to fetch applications
+        if (!userId) return;
+
         // fetching the applications from the api and passing the user id as a header authorization
         const response = await fetch("/api/application", {
           method: "GET",
@@ -45,7 +48,7 @@ const Page = () => {
 
   // filter the applications based on the status and pass each status to the appropriate card
   return (
-    <div className="relative">
+    <DashboardLayout>
       <div className="flex justify-between items-start">
         <CardElement
           application={filterByStatus(application, "offer")}
@@ -68,9 +71,7 @@ const Page = () => {
           type="pending"
         />
       </div>
-
-      <BottomNav />
-    </div>
+    </DashboardLayout>
   );
 };
 
