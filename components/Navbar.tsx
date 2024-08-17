@@ -52,11 +52,11 @@ const Navbar = () => {
           {session?.user ? (
             <>
               {/* logout button */}
-              <button onClick={handleLogOut} className="btn btn-accent">
+              <button onClick={handleLogOut} className="btn px-7 btn-outline">
                 Logout
               </button>
               {/* show dashboard button if user is logged in */}
-              <button className="btn btn-neutral">
+              <button className="btn btn-secondary">
                 <Link href="/dashboard">Dashboard</Link>
               </button>{" "}
               <Link href={"/"}>
@@ -78,7 +78,7 @@ const Navbar = () => {
             </>
           ) : (
             // show login or signup button if user is not logged in
-            <LoginOrSignUpBtn />
+            <LoginOrSignUpBtn bothBtn={true} />
           )}
         </div>
         {/* Desktop Navigation  */}
