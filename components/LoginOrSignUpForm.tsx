@@ -24,25 +24,21 @@ const LoginOrSignUpForm = ({ type }: { type: "login" | "register" }) => {
 
   const router = useRouter();
 
-  // function to handle the form submission and returing a promise and resetting the form after 2 seconds
+  // function to handle the form submission and returning a promise and resetting the form after 2 seconds
   const onSubmit: SubmitHandler<FormValues> = async (data) => {
     try {
       // Attempt to sign in the user with the data from the form
-      const result = await signIn(
-        "credentials",
-        {
-          redirect: false,
-          email: data?.email,
-          username: data?.username,
-          password: data?.password,
-        },
-        { callbackUrl: "/dashboard" }
-      );
+      const result = await signIn("credentials", {
+        redirect: false,
+        email: data.email,
+        username: data.username,
+        password: data.password,
+      });
 
       if (result?.error) {
         console.error("Sign in error:", result.error);
       } else {
-        // redirect to the dashboard after successful login
+        // Redirect to the dashboard after successful login
         router.push("/dashboard");
       }
     } catch (error) {
@@ -53,16 +49,13 @@ const LoginOrSignUpForm = ({ type }: { type: "login" | "register" }) => {
     }
   };
 
-  // fetching the providers from the getProviders function
-  const [providers, setProviders] =
-    // setting the type of the state to the Record of the providers.
-    // if this is not set, the typescript will throw an error
-    useState<Record<
-      LiteralUnion<BuiltInProviderType, string>,
-      ClientSafeProvider
-    > | null>(null);
+  // Fetching the providers from the getProviders function
+  const [providers, setProviders] = useState<Record<
+    LiteralUnion<BuiltInProviderType, string>,
+    ClientSafeProvider
+  > | null>(null);
 
-  // on component mount, fetch the providers using the getProviders function from next-auth
+  // On component mount, fetch the providers using the getProviders function from next-auth
   useEffect(() => {
     const getAllProviders = async () => {
       const res = await getProviders();
@@ -73,7 +66,7 @@ const LoginOrSignUpForm = ({ type }: { type: "login" | "register" }) => {
 
   return (
     <div className="flex items-center justify-center">
-      <div className="w-full ">
+      <div className="w-full">
         <h2 className="md:text-6xl text-2xl text-center font-bold mb-4">
           {type === "login" ? "Log In" : "Sign Up"}
         </h2>
@@ -84,23 +77,22 @@ const LoginOrSignUpForm = ({ type }: { type: "login" | "register" }) => {
 
         {/* Google and GitHub */}
         <div className="flex justify-center gap-4">
+          {" "}
           {/* if providers are available, map through them and display the
-          buttons appropriately to sign in with the provider */}
+          buttons appropriately to sign in with the provider */}{" "}
           {providers &&
             Object.values(providers)
-              // get the first two providers only
               .slice(0, 2)
               .map((provider) => (
                 <button
                   type="button"
                   key={provider.name}
-                  onClick={() => {
-                    signIn(provider.id), { callbackUrl: "/dashboard" };
-                  }}
+                  onClick={() =>
+                    signIn(provider.id, { callbackUrl: "/dashboard" })
+                  }
                   className="btn text-center btn-neutral px-6 md:px-14"
                 >
                   {provider.name}{" "}
-                  {/* if the provider is github, show the github icon, else show the google icon */}
                   {provider.id === "github" ? <FaGithub /> : <FaGoogle />}
                 </button>
               ))}
@@ -114,13 +106,13 @@ const LoginOrSignUpForm = ({ type }: { type: "login" | "register" }) => {
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
           {type === "register" && (
             <div>
-              <label className="block text-gray-600 mb-1" htmlFor="email">
+              <label className="block text-gray-600 mb-1" htmlFor="username">
                 Username
               </label>
               <input
                 id="username"
-                type="username"
-                {...register("username", { required: "username is required" })}
+                type="text"
+                {...register("username", { required: "Username is required" })}
                 className="w-full px-3 py-2 bg-neutral text-white rounded"
                 placeholder="John Doe"
               />
@@ -131,7 +123,7 @@ const LoginOrSignUpForm = ({ type }: { type: "login" | "register" }) => {
               )}
             </div>
           )}
-          {/*  */}
+
           <div>
             <label className="block text-gray-600 mb-1" htmlFor="email">
               Email
@@ -149,7 +141,6 @@ const LoginOrSignUpForm = ({ type }: { type: "login" | "register" }) => {
               </p>
             )}
           </div>
-          {/*  */}
 
           <div>
             <label className="block text-gray-600 mb-1" htmlFor="password">
@@ -169,7 +160,6 @@ const LoginOrSignUpForm = ({ type }: { type: "login" | "register" }) => {
             )}
           </div>
 
-          {/*  */}
           <div className="flex justify-center">
             <button type="submit" className="btn btn-secondary px-14">
               {type === "login" ? "Log In" : "Sign Up"}
