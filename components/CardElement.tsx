@@ -1,7 +1,7 @@
 import React from "react";
-import Image from "next/image";
 import { ApplicationInterface } from "@/interfaces";
 import Card from "./Card";
+import StatusButton from "./StatusButton";
 
 interface CardElementProps {
   type: string;
@@ -21,9 +21,8 @@ const CardElement: React.FC<CardElementProps> = ({ type, application }) => {
         <p className="text-base-content mb-8 uppercase text-sm opacity-70">
           {application.length} jobs
         </p>
-        <button className="btn btn-block btn-square btn-secondary">
-          <Image src="/plus_sign.svg" width={25} height={20} alt="sign" />
-        </button>
+
+        <StatusButton type={type} />
       </div>
 
       {/* Iterate through the application and display cards */}
