@@ -30,10 +30,24 @@ const BottomNav = () => {
               src="/plus_icon.svg"
               width={24} // Smaller icon size
               height={24}
-              alt="create"
+              alt="plus"
             />
           </Link>
           <p className="text-xs mt-1">create</p>
+        </li>
+        <li className="flex flex-col items-center">
+          <Link
+            href="/dashboard/statistics"
+            className="btn btn-square btn-ghost"
+          >
+            <Image
+              src="/chart_icon.png"
+              width={24} // Smaller icon size
+              height={24}
+              alt="chart"
+            />
+          </Link>
+          <p className="text-xs mt-1">stats</p>
         </li>
         <li className="flex flex-col items-center">
           <button
