@@ -5,5 +5,9 @@
 export { default } from "next-auth/middleware";
 
 export const config = {
-  matcher: ["/dashboard", "/dashboard/create-application"],
+  matcher: [
+    "/dashboard",
+    "/dashboard/create-application",
+    "/dashboard/edit-application",
+  ],
 };
