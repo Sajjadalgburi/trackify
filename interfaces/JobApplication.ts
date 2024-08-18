@@ -20,4 +20,6 @@ export interface ApplicationInterface extends Document {
   url?: string;
   logo?: string;
   location?: string;
+  createdAt: string;
+  updatedAt: string;
 }
