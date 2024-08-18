@@ -52,3 +52,26 @@ export const dateDiffInDays = (
     }
   }
 };
+
+// Helper function to convert dates into a hashmap of months and counts
+export const convertIntoDate = (dates: string[]) => {
+  const hashmap = new Map<string, number>();
+
+  // iterate over the dates array and convert them into months which is passsed from application object as a string
+  dates.forEach((d) => {
+    const month = new Date(d).toLocaleDateString("en-US", {
+      month: "short",
+    });
+
+    // handled edge case where hashmap already has the month, in that case increment the count
+    // else, if the month is not present in the hashmap, add it with a count of 1
+    if (hashmap.has(month)) {
+      hashmap.set(month, hashmap.get(month)! + 1);
+    } else {
+      hashmap.set(month, 1);
+    }
+  });
+
+  // return the hashmap
+  return hashmap;
+};
