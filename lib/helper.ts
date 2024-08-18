@@ -75,3 +75,40 @@ export const convertIntoDate = (dates: string[]) => {
   // return the hashmap
   return hashmap;
 };
+
+// Helper function which will take in the 'appData' and extract the month,
+// then it will use the month as a reference and create a new object that contains the month and count.
+export const placeholderMonths = (appData: { month: string; count: number }[]) => {
+  // Extract the month to use as a reference from the first element of appData
+  const referenceMonth = appData[0]?.month;
+
+  // List of all possible months
+  const allMonths = [
+    "Jan",
+    "Feb",
+    "Mar",
+    "Apr",
+    "May",
+    "Jun",
+    "Jul",
+    "Aug",
+    "Sep",
+    "Oct",
+    "Nov",
+    "Dec",
+  ];
+
+  // Find the index of the reference month in the allMonths array
+  const referenceIndex = allMonths.indexOf(referenceMonth);
+
+  // Create a new array that contains the months starting from the reference month
+  const monthsFromReference = allMonths.slice(referenceIndex);
+
+  // Create a new object array that contains the month and the count (default to 0 if the month is not in appData)
+  const filledData = monthsFromReference.map((month) => {
+    const existingData = appData.find((d) => d.month === month);
+    return existingData ? existingData : { month, count: 0 };
+  });
+
+  return filledData;
+};
