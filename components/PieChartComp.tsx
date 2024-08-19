@@ -1,13 +1,20 @@
 "use client";
 
-import { Pie, PieChart, ResponsiveContainer, Tooltip } from "recharts";
+import { Pie, PieChart, ResponsiveContainer, Tooltip, Cell } from "recharts";
 
 interface PieChartProps {
   appData: { statusName: string; value: number }[];
 }
 
+const COLORS = {
+  applied: "#8884d8",
+  interview: "#82ca9d",
+  offer: "#ffc658",
+  rejected: "#ff4d4f",
+  pending: "#a4de6c",
+};
+
 const PieChartComp: React.FC<PieChartProps> = ({ appData }) => {
-  console.log(appData);
 
   return (
     <ResponsiveContainer width="100%" height={500}>
@@ -20,11 +27,17 @@ const PieChartComp: React.FC<PieChartProps> = ({ appData }) => {
           cx="50%"
           cy="50%"
           outerRadius={150}
-          fill="#8884d8"
           stroke="#fff"
-          strokeWidth={2}
+          strokeWidth={1}
           label
-        />
+        >
+          {appData.map((entry, index) => (
+            <Cell
+              key={`cell-${index}`}
+              fill={COLORS[entry.statusName] || COLORS.pending}
+            />
+          ))}
+        </Pie>
       </PieChart>
     </ResponsiveContainer>
   );
