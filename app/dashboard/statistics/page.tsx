@@ -57,20 +57,24 @@ const Page = () => {
   // application data for the pieChart
   const applicationData = [
     {
-      statusName: "Accepted",
-      value: getStatusAverage(application, "accepted" as ApplicationStatus),
+      statusName: "offer",
+      value: getStatusAverage(application, "offer" as ApplicationStatus),
     },
     {
-      statusName: "Rejected",
+      statusName: "applied",
+      value: getStatusAverage(application, "applied" as ApplicationStatus),
+    },
+    {
+      statusName: "rejected",
       value: getStatusAverage(application, "rejected" as ApplicationStatus),
     },
     {
-      statusName: "Pending",
+      statusName: "pending",
       value: getStatusAverage(application, "pending" as ApplicationStatus),
     },
     {
-      statusName: "Interviewing",
-      value: getStatusAverage(application, "interviewing" as ApplicationStatus),
+      statusName: "interview",
+      value: getStatusAverage(application, "interview" as ApplicationStatus),
     },
   ];
 
@@ -96,8 +100,8 @@ const Page = () => {
             <LineChart appData={chartData} />
           </GirdItem>
           <GirdItem
-            desc="Your application statistics over time i.e how many applications you have submitted in each month"
-            title="Total Applications"
+            desc="Visual breakdown of your job applications, categorized by their current status."
+            title="Application Status Distribution"
           >
             <PieChartComp appData={applicationData} />
           </GirdItem>
