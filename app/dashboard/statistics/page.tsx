@@ -3,10 +3,11 @@
 import React, { useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
 import DashboardLayout from "../DashboardLayout";
-import { ApplicationInterface } from "@/interfaces";
+import { ApplicationInterface, ApplicationStatus } from "@/interfaces";
 import { GirdItem } from "@/components/GridItem";
 import LineChart from "@/components/LineChart";
-import { convertIntoDate } from "@/lib/helper";
+import { convertIntoDate, getStatusAverage } from "@/lib/helper";
+import PieChartComp from "@/components/PieChartComp";
 
 const Page = () => {
   const [application, setApplication] = useState<ApplicationInterface[]>([]);
@@ -53,6 +54,26 @@ const Page = () => {
     count,
   }));
 
+  // application data for the pieChart
+  const applicationData = [
+    {
+      statusName: "Accepted",
+      value: getStatusAverage(application, "accepted" as ApplicationStatus),
+    },
+    {
+      statusName: "Rejected",
+      value: getStatusAverage(application, "rejected" as ApplicationStatus),
+    },
+    {
+      statusName: "Pending",
+      value: getStatusAverage(application, "pending" as ApplicationStatus),
+    },
+    {
+      statusName: "Interviewing",
+      value: getStatusAverage(application, "interviewing" as ApplicationStatus),
+    },
+  ];
+
   return (
     <DashboardLayout>
       <div className="max-w-[85%] mx-auto pt-20">
@@ -68,8 +89,17 @@ const Page = () => {
 
         {/* grid items which will display the charts */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mt-[7rem]">
-          <GirdItem title="Total Applications">
+          <GirdItem
+            desc="Your application statistics over time i.e how many applications you have submitted in each month"
+            title="Total Applications"
+          >
             <LineChart appData={chartData} />
+          </GirdItem>
+          <GirdItem
+            desc="Your application statistics over time i.e how many applications you have submitted in each month"
+            title="Total Applications"
+          >
+            <PieChartComp appData={applicationData} />
           </GirdItem>
         </div>
       </div>
