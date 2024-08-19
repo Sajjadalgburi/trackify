@@ -1,4 +1,4 @@
-import { ApplicationInterface } from "@/interfaces";
+import { ApplicationInterface, ApplicationStatus } from "@/interfaces";
 
 // helper function to filter array of objects by status
 export const filterByStatus = (arr: ApplicationInterface[], status: string) => {
@@ -78,7 +78,9 @@ export const convertIntoDate = (dates: string[]) => {
 
 // Helper function which will take in the 'appData' and extract the month,
 // then it will use the month as a reference and create a new object that contains the month and count.
-export const placeholderMonths = (appData: { month: string; count: number }[]) => {
+export const placeholderMonths = (
+  appData: { month: string; count: number }[]
+) => {
   // Extract the month to use as a reference from the first element of appData
   const referenceMonth = appData[0]?.month;
 
@@ -111,4 +113,23 @@ export const placeholderMonths = (appData: { month: string; count: number }[]) =
   });
 
   return filledData;
+};
+
+// Helper function to calulate the average of the status relative to the total applications submitted
+export const getStatusAverage = (
+  applications: ApplicationInterface[],
+  statusOfApp: ApplicationStatus
+): number => {
+  const totalApplications = applications.length;
+
+  // Filter the applications by the desired status
+  const matchingApplications = applications.filter(
+    (app) => app.status.toLowerCase() === statusOfApp.toLowerCase()
+  );
+
+  // Calculate the percentage of the matching status
+  const average = (matchingApplications.length / totalApplications) * 100;
+
+  // Round to two decimal places
+  return parseFloat(average.toFixed(1));
 };
