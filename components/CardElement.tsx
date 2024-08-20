@@ -6,9 +6,14 @@ import StatusButton from "./StatusButton";
 interface CardElementProps {
   type: string;
   application: ApplicationInterface[];
+  handleDelete: (value: string) => void;
 }
 
-const CardElement: React.FC<CardElementProps> = ({ type, application }) => {
+const CardElement: React.FC<CardElementProps> = ({
+  type,
+  application,
+  handleDelete,
+}) => {
   return (
     <div className="bg-base-200 w-full border-base-300 border-r sm:w-1/3 p-6">
       {/* Title Box */}
@@ -27,7 +32,7 @@ const CardElement: React.FC<CardElementProps> = ({ type, application }) => {
 
       {/* Iterate through the application and display cards */}
       {/* also modularized the code to enhance code readability and follow DRY principles */}
-      <Card applicationArray={application} />
+      <Card handleDelete={handleDelete} applicationArray={application} />
     </div>
   );
 };
